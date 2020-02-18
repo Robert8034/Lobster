@@ -1,0 +1,19 @@
+﻿<div class="button">
+   <button @onclick="@Click">@Title</button>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public Func<Task> OnClick { get; set; }
+
+    private async Task Click()
+    {
+        if (OnClick != null)
+        {
+            await OnClick.Invoke();
+        }
+    }
+}

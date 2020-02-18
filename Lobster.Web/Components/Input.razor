@@ -1,0 +1,22 @@
+﻿<div class="input m-2">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <span class="input-title">@Title</span>
+    }
+    <input @bind="Text" type="@Type" placeholder="@Placeholder" class="w-50" />
+</div>
+
+@code {
+
+    [Parameter]
+    public string Type { get; set; } = "text";
+
+    [Parameter]
+    public string Placeholder { get; set; } = "";
+
+    [Parameter]
+    public string Title { get; set; }
+
+    public string Text;
+
+}
