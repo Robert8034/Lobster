@@ -3,7 +3,7 @@
     {
         <span class="input-title">@Title</span>
     }
-    <input @bind="Text" type="@Type" placeholder="@Placeholder" class="w-50" />
+    <input @onchange="@Change" type="@Type" placeholder="@Placeholder" class="w-50" />
 </div>
 
 @code {
@@ -17,6 +17,18 @@
     [Parameter]
     public string Title { get; set; }
 
+    [Parameter]
+    public Func<string, Task> OnChange { get; set; }
+
     public string Text;
+
+    public async Task Change(ChangeEventArgs changeEventArgs)
+    {
+        Text = (string) changeEventArgs.Value;
+        if (OnChange != null)
+        {
+            await OnChange.Invoke((string) changeEventArgs.Value);
+        }
+    }
 
 }

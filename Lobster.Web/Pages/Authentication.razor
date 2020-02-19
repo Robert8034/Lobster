@@ -1,11 +1,83 @@
-﻿@page "/Authentication"
+﻿@page "/authentication"
 @layout FormLayout
 
+@if (IsLoggingIn)
+{
     <GenericForm>
-        <Input Type="text" Placeholder="Username" />
-        <Input Type="password" Placeholder="Password" />
+        <Input @ref="@LoginUsername" Type="text" Placeholder="Username" OnChange="@ValidateInput" />
+        <Input @ref="@LoginPassword" Type="password" Placeholder="Password" OnChange="@ValidateInput" />
+        <Button @ref="@LoginButton" Title="Login" OnClick="@Login"></Button>
+        <Button Title="Register" OnClick="@Register" Disabled="false"></Button>
     </GenericForm>
+}
+else
+{
+<GenericForm>
+    <Input @ref="@RegisterUsername" Type="text" Placeholder="Username" OnChange="@ValidateInput" />
+    <Input @ref="@RegisterPassword" Type="password" Placeholder="Password" OnChange="@ValidateInput" />
+    <Input @ref="@RegisterPasswordConfirm" Type="password" Placeholder="Confirm Password" OnChange="@ValidateInput" />
+    <Input @ref="@RegisterEmail" Type="text" Placeholder="Email" OnChange="@ValidateInput" />
+    <Button @ref="RegisterButton" Title="Register" OnClick="@Register"></Button>
+    <Button Title="Login" OnClick="@Login" Disabled="false"></Button>
+</GenericForm>
+}
 
 @code {
 
+    private Input LoginUsername;
+    private Input LoginPassword;
+
+    private Button LoginButton;
+    private Button RegisterButton;
+
+    private Input RegisterUsername;
+    private Input RegisterPassword;
+    private Input RegisterPasswordConfirm;
+    private Input RegisterEmail;
+
+    private AuthenticationService authenticationService = new AuthenticationService();
+
+    [Parameter]
+    public bool IsLoggingIn { get; set; } = true;
+
+    private Task Login()
+    {
+        if (IsLoggingIn)
+        {
+            // Method in service die API call maakt
+        }
+        else
+        {
+            IsLoggingIn = true;
+            StateHasChanged();
+        }
+        return Task.CompletedTask;
+    }
+
+    private Task Register()
+    {
+        if (IsLoggingIn)
+        {
+            IsLoggingIn = false;
+            StateHasChanged();
+        }
+        else
+        {
+            //Call to controller for register action
+        }
+        return Task.CompletedTask;
+    }
+
+    private Task ValidateInput(string value)
+    {
+        if (IsLoggingIn)
+        {
+            LoginButton.ToggleDisable(authenticationService.ValidateLoginInput(LoginUsername.Text, LoginPassword.Text));
+        }
+        else
+        {
+            RegisterButton.ToggleDisable(authenticationService.ValidateRegisterInput(RegisterUsername.Text, RegisterPassword.Text, RegisterPasswordConfirm.Text, RegisterEmail.Text));
+        }
+        return Task.CompletedTask;
+    }
 }
