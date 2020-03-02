@@ -1,4 +1,7 @@
 ﻿@page "/authentication"
+@inject IValidationService ValidationService
+@inject IAuthenticationService AuthenticationService
+
 @layout FormLayout
 
 @if (IsLoggingIn)
@@ -7,7 +10,7 @@
         <Input @ref="@LoginUsername" Type="text" Placeholder="Username" OnChange="@ValidateInput" />
         <Input @ref="@LoginPassword" Type="password" Placeholder="Password" OnChange="@ValidateInput" />
         <Button @ref="@LoginButton" Title="Login" OnClick="@Login"></Button>
-        <Button Title="Register" OnClick="@Register" Disabled="false"></Button>
+        <Button Title="Register" OnClick="@Register" Enabled="true"></Button>
     </GenericForm>
 }
 else
@@ -18,7 +21,7 @@ else
     <Input @ref="@RegisterPasswordConfirm" Type="password" Placeholder="Confirm Password" OnChange="@ValidateInput" />
     <Input @ref="@RegisterEmail" Type="text" Placeholder="Email" OnChange="@ValidateInput" />
     <Button @ref="RegisterButton" Title="Register" OnClick="@Register"></Button>
-    <Button Title="Login" OnClick="@Login" Disabled="false"></Button>
+    <Button Title="Login" OnClick="@Login" Enabled="true"></Button>
 </GenericForm>
 }
 
@@ -35,8 +38,6 @@ else
     private Input RegisterPasswordConfirm;
     private Input RegisterEmail;
 
-    private AuthenticationService authenticationService = new AuthenticationService();
-
     [Parameter]
     public bool IsLoggingIn { get; set; } = true;
 
@@ -44,6 +45,7 @@ else
     {
         if (IsLoggingIn)
         {
+
             // Method in service die API call maakt
         }
         else
@@ -72,11 +74,11 @@ else
     {
         if (IsLoggingIn)
         {
-            LoginButton.ToggleDisable(authenticationService.ValidateLoginInput(LoginUsername.Text, LoginPassword.Text));
+            LoginButton.ToggleEnabled(ValidationService.ValidateLoginInput(LoginUsername.Text, LoginPassword.Text));
         }
         else
         {
-            RegisterButton.ToggleDisable(authenticationService.ValidateRegisterInput(RegisterUsername.Text, RegisterPassword.Text, RegisterPasswordConfirm.Text, RegisterEmail.Text));
+            RegisterButton.ToggleEnabled(ValidationService.ValidateRegisterInput(RegisterUsername.Text, RegisterPassword.Text, RegisterPasswordConfirm.Text, RegisterEmail.Text));
         }
         return Task.CompletedTask;
     }

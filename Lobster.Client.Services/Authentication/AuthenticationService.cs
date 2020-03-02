@@ -1,34 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 
 namespace Lobster.Client.Services.Authentication
 {
-    public class AuthenticationService
+    class AuthenticationService : IAuthenticationService
     {
-        public bool ValidateLoginInput(string username, string password)
+
+        private readonly HttpClient _httpClient;
+
+        public AuthenticationService(HttpClient httpClient)
         {
-            if (string.IsNullOrEmpty(username))
-              return false;
-            if (string.IsNullOrEmpty(password))
-                return false;
+            _httpClient = httpClient;
 
-            return true;
         }
-
-        public bool ValidateRegisterInput(string username, string password, string passwordConfirm, string email)
-        {
-            if (string.IsNullOrEmpty(username))
-              return false;
-            if (string.IsNullOrEmpty(password))
-              return false;
-            if (string.IsNullOrEmpty(passwordConfirm))
-              return false;
-            if (string.IsNullOrEmpty(email))
-              return false;
-
-            return true;
-        }
-
     }
 }
