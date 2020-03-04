@@ -1,4 +1,5 @@
 ﻿@page "/authentication"
+@using Lobster.Core.Domain
 @inject IValidationService ValidationService
 @inject IAuthenticationService AuthenticationService
 
@@ -56,7 +57,7 @@ else
         return Task.CompletedTask;
     }
 
-    private Task Register()
+    private async Task Register()
     {
         if (IsLoggingIn)
         {
@@ -66,8 +67,8 @@ else
         else
         {
             //Call to controller for register action
+            RegisterResult result = await AuthenticationService.Register(new RegisterModel(RegisterUsername.Text, RegisterPassword.Text, RegisterEmail.Text));
         }
-        return Task.CompletedTask;
     }
 
     private Task ValidateInput(string value)

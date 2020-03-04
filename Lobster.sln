@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Core", "Lobster.Core\Lobster.Core.csproj", "{07421E2B-0688-47B8-96C3-CCB82CAFE669}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Server", "Lobster.Server\Lobster.Server.csproj", "{73D344C0-6ADE-410E-8CE9-47501E81E693}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Data", "Lobster.Data\Lobster.Data.csproj", "{34E8F9A7-F66B-4EB8-9FB4-52B6C9E697EB}"
@@ -15,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Server.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Server.Services.Test", "Lobster.Server.Services.Test\Lobster.Server.Services.Test.csproj", "{CCB4DCB8-1B28-4826-9B8E-AE114F38C423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobster.Client.Services", "Lobster.Client.Services\Lobster.Client.Services.csproj", "{C0A5FF8D-D922-426D-8D3A-C69332EBA427}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Client.Services", "Lobster.Client.Services\Lobster.Client.Services.csproj", "{C0A5FF8D-D922-426D-8D3A-C69332EBA427}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobster.Core", "Lobster.Core\Lobster.Core.csproj", "{35FE9414-0137-4262-B51D-8DBA88783E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{07421E2B-0688-47B8-96C3-CCB82CAFE669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07421E2B-0688-47B8-96C3-CCB82CAFE669}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07421E2B-0688-47B8-96C3-CCB82CAFE669}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07421E2B-0688-47B8-96C3-CCB82CAFE669}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73D344C0-6ADE-410E-8CE9-47501E81E693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73D344C0-6ADE-410E-8CE9-47501E81E693}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73D344C0-6ADE-410E-8CE9-47501E81E693}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{C0A5FF8D-D922-426D-8D3A-C69332EBA427}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0A5FF8D-D922-426D-8D3A-C69332EBA427}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0A5FF8D-D922-426D-8D3A-C69332EBA427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35FE9414-0137-4262-B51D-8DBA88783E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35FE9414-0137-4262-B51D-8DBA88783E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35FE9414-0137-4262-B51D-8DBA88783E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35FE9414-0137-4262-B51D-8DBA88783E47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
