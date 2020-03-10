@@ -42,11 +42,11 @@ else
     [Parameter]
     public bool IsLoggingIn { get; set; } = true;
 
-    private Task Login()
+    private async Task Login()
     {
         if (IsLoggingIn)
         {
-
+            LoginResult result = await AuthenticationService.Login(new LoginModel(LoginUsername.Text, LoginPassword.Text));
             // Method in service die API call maakt
         }
         else
@@ -54,7 +54,6 @@ else
             IsLoggingIn = true;
             StateHasChanged();
         }
-        return Task.CompletedTask;
     }
 
     private async Task Register()

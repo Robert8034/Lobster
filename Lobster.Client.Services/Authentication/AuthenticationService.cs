@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,9 @@ namespace Lobster.Client.Services.Authentication
         }
 
         public async Task<LoginResult> Login(LoginModel loginModel)
-        {
-           return await _httpClient.PostJsonAsync<LoginResult>("/User/login", loginModel);
+        { 
+           Debug.WriteLine("Hit");
+           return await _httpClient.PostJsonAsync<LoginResult>("/api/User", loginModel);
         }
 
     }

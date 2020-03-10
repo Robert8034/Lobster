@@ -42,9 +42,12 @@ namespace Lobster.Server
 
             app.UseAuthorization();
 
+            app.UseClientSideBlazorFiles<Web.Program>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToClientSideBlazor<Web.Program>("index.html");
             });
         }
     }
