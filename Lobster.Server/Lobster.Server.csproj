@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lobster.Core\Lobster.Core.csproj" />
+    <ProjectReference Include="..\Lobster.Server.Services\Lobster.Server.Services.csproj" />
     <ProjectReference Include="..\Lobster.Web\Lobster.Web.csproj" />
   </ItemGroup>
 
