@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Lobster.Core.Domain;
+using Lobster.Data;
 
 namespace Lobster.Server.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        public async Task<LoginResult> LoginUser(LoginModel loginModel)
+        public async Task<User> LoginUser(LoginModel loginModel)
         {
-            return new LoginResult();
+            Repository repository = new Repository();
+            repository.Test();
+            return new User();
         }
 
-        public async Task<RegisterResult> RegisterUser(RegisterModel registerModel)
+        public async Task<User> RegisterUser(RegisterModel registerModel)
         {
-            return new RegisterResult();
+            return new User();
         }
     }
 }

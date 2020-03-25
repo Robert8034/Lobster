@@ -20,7 +20,6 @@ namespace Lobster.Core
 
         public static async Task<T> SendJsonAsync<T>(this HttpClient httpClient, HttpMethod method, string url, object data)
         {
-            Console.WriteLine(JsonConvert.SerializeObject(data));
             var response = await httpClient.SendAsync(new HttpRequestMessage(method, ConnectionString + url)
             {
                 Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json")

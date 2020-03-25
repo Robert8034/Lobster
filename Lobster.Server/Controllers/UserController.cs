@@ -21,18 +21,18 @@ namespace Lobster.Server.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<LoginResult>> PostLoginModel(LoginModel model)
+        public async Task<ActionResult<User>> PostLoginModel(LoginModel model)
         {
             Console.WriteLine(model.Username);
-            return new ActionResult<LoginResult>(await _authenticationService.LoginUser(model));
+            return new ActionResult<User>(await _authenticationService.LoginUser(model));
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult<RegisterResult>> PostRegisterModel(RegisterModel model)
+        public async Task<ActionResult<User>> PostRegisterModel(RegisterModel model)
         {
             Console.WriteLine(model.Username);
-            return new ActionResult<RegisterResult>(await _authenticationService.RegisterUser(model));
+            return new ActionResult<User>(await _authenticationService.RegisterUser(model));
         }
     }
 }

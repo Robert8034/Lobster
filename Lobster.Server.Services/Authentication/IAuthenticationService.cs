@@ -8,7 +8,7 @@ namespace Lobster.Server.Services.Authentication
 {
     public interface IAuthenticationService
     {
-        Task<LoginResult> LoginUser(LoginModel loginModel); 
-        Task<RegisterResult> RegisterUser(RegisterModel registerModel);
+        Task<User> LoginUser(LoginModel loginModel); 
+        Task<User> RegisterUser(RegisterModel registerModel);
     }
 }
