@@ -12,9 +12,7 @@ namespace Lobster.Core
     {
 
         private const string ConnectionString = "https://localhost:5001/";
-        //var result = await httpClient.PostAsync(url, new StringContent(JsonConvert.SerializeObject(data)));
-        //return JsonConvert.DeserializeObject<T>(await result.Content.ReadAsStringAsync());
-
+     
         public static async Task<T> PostJsonAsync<T>(this HttpClient httpClient, string url, object data) => await httpClient.SendJsonAsync<T>(HttpMethod.Post, url, data);
 
 

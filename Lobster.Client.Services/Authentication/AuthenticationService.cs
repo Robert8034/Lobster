@@ -22,14 +22,12 @@ namespace Lobster.Client.Services.Authentication
 
         public async Task<User> Register(RegisterModel registerModel)
         { 
-           return await _httpClient.PostJsonAsync<User>("/User/register", registerModel);
+           return await _httpClient.PostJsonAsync<User>("api/User/register", registerModel);
         }
 
         public async Task<User> Login(LoginModel loginModel)
         { 
-           Debug.WriteLine("Hit");
-           return await _httpClient.PostJsonAsync<User>("/api/User", loginModel);
+           return await _httpClient.PostJsonAsync<User>("api/User/login", loginModel);
         }
-
     }
 }

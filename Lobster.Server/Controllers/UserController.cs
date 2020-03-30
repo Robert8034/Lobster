@@ -23,7 +23,6 @@ namespace Lobster.Server.Controllers
         [Route("login")]
         public async Task<ActionResult<User>> PostLoginModel(LoginModel model)
         {
-            Console.WriteLine(model.Username);
             return new ActionResult<User>(await _authenticationService.LoginUser(model));
         }
 
@@ -31,7 +30,6 @@ namespace Lobster.Server.Controllers
         [Route("register")]
         public async Task<ActionResult<User>> PostRegisterModel(RegisterModel model)
         {
-            Console.WriteLine(model.Username);
             return new ActionResult<User>(await _authenticationService.RegisterUser(model));
         }
     }

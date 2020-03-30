@@ -47,6 +47,7 @@ else
         if (IsLoggingIn)
         {
             User result = await AuthenticationService.Login(new LoginModel(LoginUsername.Text, LoginPassword.Text));
+            Console.WriteLine(result);
             // Method in service die API call maakt
         }
         else

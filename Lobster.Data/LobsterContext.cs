@@ -23,7 +23,6 @@ namespace Lobster.Data
             optionsBuilder.UseMySql(
                    "Server=localhost;Port=3306;Database=LobsterBase;User=root;Password=Wachtwoord12345;");
 
-            this.Database.Migrate();
         }
     }
 }

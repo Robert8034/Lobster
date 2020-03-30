@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lobster.Core\Lobster.Core.csproj" />
     <ProjectReference Include="..\Lobster.Data\Lobster.Data.csproj" />
   </ItemGroup>

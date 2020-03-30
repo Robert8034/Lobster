@@ -1,27 +1,77 @@
-﻿using Lobster.Core.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Linq;
+using Lobster.Core.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace Lobster.Data
+namespace Application.Data
 {
-    public class Repository  
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        public void Test()
+        private readonly DbContext _context;
+
+        private DbSet<TEntity> _entities;
+
+        public virtual IQueryable<TEntity> Table => Entities;
+        public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
+
+        protected virtual DbSet<TEntity> Entities => _entities ??= _context.Set<TEntity>();
+
+        public Repository(DbContext context)
         {
-            using (var context = new LobsterContext())
-            {
-                Console.WriteLine("Hittttt");
-                var user = new User
-                {
-                    Username = "Test",
-                    Password = "Test123",
-                    Email = "Robert.dams@test.nl",
-                    Karma = 123
-                };
-                context.Users.Add(user);
-                context.SaveChanges();
-            }
+            _context = context;
+        }
+
+        public TEntity GetById(object id)
+        {
+            return Entities.Find(id);
+        }
+
+        public TEntity Insert(TEntity entity)
+        {
+            entity = Entities.Add(entity).Entity;
+
+            _context.SaveChanges();
+
+            return entity;
+        }
+
+        public void Insert(IEnumerable<TEntity> entities)
+        {
+            Entities.AddRange(entities);
+
+            _context.SaveChanges();
+        }
+
+        public TEntity Update(TEntity entity)
+        {
+            entity = Entities.Update(entity).Entity;
+
+            _context.SaveChanges();
+
+            return entity;
+        }
+
+        public void Update(IEnumerable<TEntity> entities)
+        {
+            Entities.UpdateRange(entities);
+
+            _context.SaveChanges();
+        }
+
+        public void Delete(TEntity entity)
+        {
+            Entities.Remove(entity);
+
+            _context.SaveChanges();
+        }
+
+        public void Delete(IEnumerable<TEntity> entities)
+        {
+            Entities.RemoveRange(entities);
+
+            _context.SaveChanges();
         }
     }
 }

@@ -2,11 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Data;
+using Lobster.Core.Data;
+using Lobster.Core.Domain;
+using Lobster.Data;
 using Lobster.Server.Services.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,8 +31,12 @@ namespace Lobster.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<DbContext, LobsterContext>();
             services.AddControllers();
-            services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IRepository<BaseEntity>, Repository<BaseEntity>>();
+            services.AddScoped<IRepository<User>, Repository<User>>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
