@@ -2,6 +2,7 @@
 @using Lobster.Core.Domain
 @inject IValidationService ValidationService
 @inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
 
 @layout FormLayout
 
@@ -47,7 +48,8 @@ else
         if (IsLoggingIn)
         {
             User result = await AuthenticationService.Login(new LoginModel(LoginUsername.Text, LoginPassword.Text));
-            Console.WriteLine(result);
+
+            if (result != null) NavigationManager.NavigateTo("");
             // Method in service die API call maakt
         }
         else

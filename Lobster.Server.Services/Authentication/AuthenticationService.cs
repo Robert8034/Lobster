@@ -18,13 +18,26 @@ namespace Lobster.Server.Services.Authentication
         }
         public async Task<User> LoginUser(LoginModel loginModel)
         {
-            _userRepository.Table.SingleOrDefault();
+            User tempUser = _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
+
+            if (tempUser != null || tempUser.Password == loginModel.Password) return tempUser;
             
             return null;
         }
         public async Task<User> RegisterUser(RegisterModel registerModel)
         {
-            return new User();
+            if (_userRepository.Table.SingleOrDefault(a => a.Username == registerModel.Username) == null)
+            {
+                User user = new User
+                {
+                    Username = registerModel.Username,
+                    Password = registerModel.Password,
+                    Email = registerModel.Email
+                };
+                _userRepository.Insert(user);
+                return user;
+            }
+            return null;
         }
     }
 }
