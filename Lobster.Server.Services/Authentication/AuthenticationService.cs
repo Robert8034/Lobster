@@ -18,6 +18,7 @@ namespace Lobster.Server.Services.Authentication
         }
         public async Task<User> LoginUser(LoginModel loginModel)
         {
+            
             User tempUser = _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
 
             if (tempUser != null || tempUser.Password == loginModel.Password) return tempUser;
