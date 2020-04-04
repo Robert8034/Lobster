@@ -171,6 +171,9 @@ namespace Lobster.Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<string>("EncryptionKey")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("Karma")
                         .HasColumnType("int");
 

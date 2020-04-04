@@ -6,22 +6,25 @@ using System.Threading.Tasks;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Data;
+using Lobster.Server.Services.Encryption;
 
 namespace Lobster.Server.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IRepository<User> _userRepository;
-        public AuthenticationService(IRepository<User> userRepository)
+        private readonly IEncryptionService _encryptionService;
+        public AuthenticationService(IRepository<User> userRepository, IEncryptionService encryptionService)
         {
             _userRepository = userRepository;
+            _encryptionService = encryptionService;
         }
         public async Task<User> LoginUser(LoginModel loginModel)
         {
             
             User tempUser = _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
 
-            if (tempUser != null || tempUser.Password == loginModel.Password) return tempUser;
+            if (tempUser != null && _encryptionService.Decrypt(tempUser.Password, tempUser.EncryptionKey) == loginModel.Password) return tempUser;
             
             return null;
         }
@@ -29,10 +32,13 @@ namespace Lobster.Server.Services.Authentication
         {
             if (_userRepository.Table.SingleOrDefault(a => a.Username == registerModel.Username) == null)
             {
+                string encryptionKey = _encryptionService.GenerateEncryptionKey();
+
                 User user = new User
                 {
                     Username = registerModel.Username,
-                    Password = registerModel.Password,
+                    Password = _encryptionService.Encrypt(registerModel.Password, encryptionKey),
+                    EncryptionKey = encryptionKey,
                     Email = registerModel.Email
                 };
                 _userRepository.Insert(user);

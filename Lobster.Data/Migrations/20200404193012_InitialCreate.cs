@@ -57,6 +57,7 @@ namespace Lobster.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
+                    EncryptionKey = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Karma = table.Column<int>(nullable: false)
                 },

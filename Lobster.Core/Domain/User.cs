@@ -9,6 +9,7 @@ namespace Lobster.Core.Domain
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public string EncryptionKey { get; set; }
         public string Email { get; set; }
         public int Karma { get; set; }
         public List<Post> Posts { get; set; }

@@ -7,6 +7,7 @@ using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Data;
 using Lobster.Server.Services.Authentication;
+using Lobster.Server.Services.Encryption;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +36,7 @@ namespace Lobster.Server
             services.AddControllers();
             services.AddScoped<IRepository<BaseEntity>, Repository<BaseEntity>>();
             services.AddScoped<IRepository<User>, Repository<User>>();
+            services.AddSingleton<IEncryptionService, EncryptionService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             
         }

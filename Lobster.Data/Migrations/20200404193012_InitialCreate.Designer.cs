@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lobster.Data.Migrations
 {
     [DbContext(typeof(LobsterContext))]
-    [Migration("20200401152350_InitialCreate")]
+    [Migration("20200404193012_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,6 +171,9 @@ namespace Lobster.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("EncryptionKey")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("Karma")
