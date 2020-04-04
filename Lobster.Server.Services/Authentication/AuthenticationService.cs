@@ -41,6 +41,7 @@ namespace Lobster.Server.Services.Authentication
                     EncryptionKey = encryptionKey,
                     Email = registerModel.Email
                 };
+
                 _userRepository.Insert(user);
                 return user;
             }

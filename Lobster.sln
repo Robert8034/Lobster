@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Server.Services.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Client.Services", "Lobster.Client.Services\Lobster.Client.Services.csproj", "{C0A5FF8D-D922-426D-8D3A-C69332EBA427}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobster.Core", "Lobster.Core\Lobster.Core.csproj", "{35FE9414-0137-4262-B51D-8DBA88783E47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lobster.Core", "Lobster.Core\Lobster.Core.csproj", "{35FE9414-0137-4262-B51D-8DBA88783E47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

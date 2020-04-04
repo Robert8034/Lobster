@@ -17,6 +17,7 @@ namespace Lobster.Data
         public DbSet<GroupMessage> GroupMessages { get; set; }
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Follow> Follows { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

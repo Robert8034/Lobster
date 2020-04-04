@@ -17,6 +17,25 @@ namespace Lobster.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("FollowId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Follows");
+                });
+
             modelBuilder.Entity("Lobster.Core.Domain.Group", b =>
                 {
                     b.Property<int>("Id")
@@ -186,6 +205,15 @@ namespace Lobster.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
+                {
+                    b.HasOne("Lobster.Core.Domain.User", null)
+                        .WithMany("Follows")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lobster.Core.Domain.GroupMessage", b =>
