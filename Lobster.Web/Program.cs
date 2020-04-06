@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Lobster.Client.Services.Validation;
 using Lobster.Client.Services.Authentication;
 using Lobster.Client.Services.Posting;
+using Lobster.Client.Services.FollowServices;
 
 namespace Lobster.Web
 {
@@ -18,6 +19,7 @@ namespace Lobster.Web
             builder.Services.AddSingleton<IValidationService, ValidationService>();
             builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
             builder.Services.AddSingleton<IPostingService, PostingService>();
+            builder.Services.AddSingleton<IFollowService, FollowService>();
             builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();

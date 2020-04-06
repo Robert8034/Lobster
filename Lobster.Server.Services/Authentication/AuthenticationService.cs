@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Data;
-using Lobster.Server.Services.Encryption;
+using Lobster.Server.Services.EncryptionServices;
 
 namespace Lobster.Server.Services.Authentication
 {
@@ -22,7 +22,7 @@ namespace Lobster.Server.Services.Authentication
         public async Task<User> LoginUser(LoginModel loginModel)
         {
             
-            User tempUser = _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
+            User tempUser =  _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
 
             if (tempUser != null && _encryptionService.Decrypt(tempUser.Password, tempUser.EncryptionKey) == loginModel.Password) return tempUser;
             

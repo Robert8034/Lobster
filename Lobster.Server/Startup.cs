@@ -7,7 +7,7 @@ using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Data;
 using Lobster.Server.Services.Authentication;
-using Lobster.Server.Services.Encryption;
+using Lobster.Server.Services.EncryptionServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

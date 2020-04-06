@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lobster.Server.Services.Encryption
+namespace Lobster.Server.Services.EncryptionServices
 {
     public interface IEncryptionService
     {

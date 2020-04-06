@@ -4,7 +4,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 
-namespace Lobster.Server.Services.Encryption
+namespace Lobster.Server.Services.EncryptionServices
 {
     public class EncryptionService : IEncryptionService
     {
