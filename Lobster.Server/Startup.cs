@@ -1,22 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Application.Data;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Data;
 using Lobster.Server.Services.Authentication;
 using Lobster.Server.Services.EncryptionServices;
+using Lobster.Server.Services.FollowServices;
+using Lobster.Server.Services.PostingServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Lobster.Server
 {
@@ -36,8 +32,12 @@ namespace Lobster.Server
             services.AddControllers();
             services.AddScoped<IRepository<BaseEntity>, Repository<BaseEntity>>();
             services.AddScoped<IRepository<User>, Repository<User>>();
+            services.AddScoped<IRepository<Post>, Repository<Post>>();
+            services.AddScoped<IRepository<Follow>, Repository<Follow>>();
             services.AddSingleton<IEncryptionService, EncryptionService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IFollowService, FollowService>();
+            services.AddScoped<IPostingService, PostingService>();
             
         }
 

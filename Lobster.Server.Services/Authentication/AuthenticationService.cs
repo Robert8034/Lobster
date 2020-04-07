@@ -39,7 +39,7 @@ namespace Lobster.Server.Services.Authentication
                     Username = registerModel.Username,
                     Password = _encryptionService.Encrypt(registerModel.Password, encryptionKey),
                     EncryptionKey = encryptionKey,
-                    Email = registerModel.Email
+                    Email = registerModel.Email  
                 };
 
                 _userRepository.Insert(user);

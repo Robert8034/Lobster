@@ -1,6 +1,7 @@
 ﻿@page "/timeline"
 @inject NavigationManager NavigationManager
 @inject IPostingService PostingService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
 @inject IFollowService FollowService
 
 <h3>Timeline</h3>
@@ -10,6 +11,13 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
+        int userId = await localStorage.GetItemAsync<int>("userId");
+        List<Follow> follows = await FollowService.GetFollows(userId);
+
+        foreach (var follow in follows)
+        {
+            Console.WriteLine(follow);
+        }
 
     }
 }

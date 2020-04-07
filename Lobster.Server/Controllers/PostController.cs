@@ -22,7 +22,7 @@ namespace Lobster.Server.Controllers
         
         [HttpPost]
         [Route("generatetimeline")]
-        public async Task<ActionResult<TimelineModel>> PostLoginModel(List<Follow> follows)
+        public async Task<ActionResult<TimelineModel>> GenerateTimeline(List<Follow> follows)
         {
             return new ActionResult<TimelineModel>(await _postingService.GetTimeline(follows));
         }

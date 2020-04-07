@@ -19,7 +19,7 @@ namespace Lobster.Client.Services.FollowServices
 
         public async Task<List<Follow>> GetFollows(int userId)
         {
-           return await _httpClient.PostJsonAsync<List<Follow>>("api/Post/generatetimeline", userId);
+           return await _httpClient.PostJsonAsync<List<Follow>>("api/Follow/getFollows", userId);
         }
     }
 }

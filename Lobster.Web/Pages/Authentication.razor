@@ -3,6 +3,7 @@
 @inject IValidationService ValidationService
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
 
 @layout FormLayout
 
@@ -17,14 +18,14 @@
 }
 else
 {
-<GenericForm>
-    <Input @ref="@RegisterUsername" Type="text" Placeholder="Username" OnChange="@ValidateInput" />
-    <Input @ref="@RegisterPassword" Type="password" Placeholder="Password" OnChange="@ValidateInput" />
-    <Input @ref="@RegisterPasswordConfirm" Type="password" Placeholder="Confirm Password" OnChange="@ValidateInput" />
-    <Input @ref="@RegisterEmail" Type="text" Placeholder="Email" OnChange="@ValidateInput" />
-    <Button @ref="RegisterButton" Title="Register" OnClick="@Register"></Button>
-    <Button Title="Login" OnClick="@Login" Enabled="true"></Button>
-</GenericForm>
+    <GenericForm>
+        <Input @ref="@RegisterUsername" Type="text" Placeholder="Username" OnChange="@ValidateInput" />
+        <Input @ref="@RegisterPassword" Type="password" Placeholder="Password" OnChange="@ValidateInput" />
+        <Input @ref="@RegisterPasswordConfirm" Type="password" Placeholder="Confirm Password" OnChange="@ValidateInput" />
+        <Input @ref="@RegisterEmail" Type="text" Placeholder="Email" OnChange="@ValidateInput" />
+        <Button @ref="RegisterButton" Title="Register" OnClick="@Register"></Button>
+        <Button Title="Login" OnClick="@Login" Enabled="true"></Button>
+    </GenericForm>
 }
 
 @code {
@@ -48,9 +49,11 @@ else
         if (IsLoggingIn)
         {
             User result = await AuthenticationService.Login(new LoginModel(LoginUsername.Text, LoginPassword.Text));
-
-            if (result != null) NavigationManager.NavigateTo("");
-            // Method in service die API call maakt
+            if (result != null)
+            {
+                await localStorage.SetItemAsync("userId", result.Id);
+                NavigationManager.NavigateTo("/timeline");
+            }
         }
         else
         {

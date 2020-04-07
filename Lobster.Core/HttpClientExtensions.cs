@@ -20,7 +20,7 @@ namespace Lobster.Core
         {
             var response = await httpClient.SendAsync(new HttpRequestMessage(method, ConnectionString + url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonConvert.SerializeObject(data).ToString(), Encoding.UTF8, "application/json")
             });
 
             var stringContent = await response.Content.ReadAsStringAsync();
