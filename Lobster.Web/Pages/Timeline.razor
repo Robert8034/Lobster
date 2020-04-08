@@ -13,11 +13,7 @@
     {
         int userId = await localStorage.GetItemAsync<int>("userId");
         List<Follow> follows = await FollowService.GetFollows(userId);
-
-        foreach (var follow in follows)
-        {
-            Console.WriteLine(follow);
-        }
+        List<Post> timelinePosts = await PostingService.GenerateTimeline(follows);
 
     }
 }

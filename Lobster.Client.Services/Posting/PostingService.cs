@@ -19,9 +19,9 @@ namespace Lobster.Client.Services.Posting
 
         }
 
-        public async Task<List<Post>> GenerateTimeline(int UserId)
+        public async Task<List<Post>> GenerateTimeline(List<Follow> follows)
         {
-            TimelineModel timelineModel = await _httpClient.PostJsonAsync<TimelineModel>("api/Post/generatetimeline", UserId);
+            TimelineModel timelineModel = await _httpClient.PostJsonAsync<TimelineModel>("api/Post/generatetimeline", follows);
             return timelineModel.Timeline;
         }
     }

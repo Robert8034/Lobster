@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Lobster.Data.Migrations
@@ -50,6 +51,20 @@ namespace Lobster.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Permissions = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -59,11 +74,18 @@ namespace Lobster.Data.Migrations
                     Password = table.Column<string>(nullable: true),
                     EncryptionKey = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Karma = table.Column<int>(nullable: false)
+                    Karma = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,6 +137,7 @@ namespace Lobster.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
+                    PostDate = table.Column<DateTime>(nullable: false),
                     GroupId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -227,6 +250,11 @@ namespace Lobster.Data.Migrations
                 name: "IX_Reactions_PostId",
                 table: "Reactions",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -257,6 +285,9 @@ namespace Lobster.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

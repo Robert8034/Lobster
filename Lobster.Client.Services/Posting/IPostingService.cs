@@ -8,6 +8,6 @@ namespace Lobster.Client.Services.Posting
 {
     public interface IPostingService
     {
-        Task<List<Post>> GenerateTimeline(int UserId);
+        Task<List<Post>> GenerateTimeline(List<Follow> follows);
     }
 }

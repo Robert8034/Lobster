@@ -9,6 +9,7 @@ namespace Lobster.Core.Domain
     {
         public int UserId { get; set; }
         public string Content { get; set; }
+        public DateTime PostDate { get; set; }
         public List<Like> Likes { get; set; }
         public List<Reaction> Reactions { get; set; }
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
+using Lobster.Core.Domain.Roles;
 using Lobster.Data;
 using Lobster.Server.Services.EncryptionServices;
 
@@ -39,12 +40,26 @@ namespace Lobster.Server.Services.Authentication
                     Username = registerModel.Username,
                     Password = _encryptionService.Encrypt(registerModel.Password, encryptionKey),
                     EncryptionKey = encryptionKey,
-                    Email = registerModel.Email  
+                    Email = registerModel.Email,
+                    Role = new Role
+                    {
+                        Name = "User",
+                        Permissions = Permissions.User
+                    }
                 };
 
                 _userRepository.Insert(user);
                 return user;
             }
+            return null;
+        }
+
+        public Role GetRole(int userId)
+        {
+            User user = _userRepository.Table.SingleOrDefault(a => a.Id == userId);
+
+            if (user != null) return user.Role;
+
             return null;
         }
     }
