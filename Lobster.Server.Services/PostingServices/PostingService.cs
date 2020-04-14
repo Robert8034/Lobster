@@ -18,7 +18,7 @@ namespace Lobster.Server.Services.PostingServices
             _postRepository = postRepository;
         }
 
-        public async Task<TimelineModel> GetTimeline(List<Follow> follows)
+        public TimelineModel GetTimeline(List<Follow> follows)
         {
             return new TimelineModel();
         }

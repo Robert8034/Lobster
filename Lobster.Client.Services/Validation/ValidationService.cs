@@ -16,6 +16,7 @@ namespace Lobster.Client.Services.Validation
             return true;
         }
 
+     
         public bool ValidateRegisterInput(string username, string password, string passwordConfirm, string email)
         {
             if (string.IsNullOrEmpty(username))
@@ -32,5 +33,12 @@ namespace Lobster.Client.Services.Validation
             return true;
         }
 
+        public bool ValidatePostInput(string content)
+        {
+            if (string.IsNullOrEmpty(content))
+                return false;
+
+            return true;
+        }
     }
 }

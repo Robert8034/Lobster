@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Lobster.Core;
+using Lobster.Core.Data;
 using Lobster.Core.Domain;
+using Newtonsoft.Json;
 
 namespace Lobster.Client.Services.Authentication
 {
@@ -22,12 +25,25 @@ namespace Lobster.Client.Services.Authentication
 
         public async Task<User> Register(RegisterModel registerModel)
         { 
-           return await _httpClient.PostJsonAsync<User>("api/User/register", registerModel);
+            RestResponse response = await _httpClient.PostJsonAsync<RestResponse>("api/User/register", registerModel, typeof(User));
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return JsonConvert.DeserializeObject<User>(response.ResponseObject.ToString());
+
+            }
+            return null;
         }
 
         public async Task<User> Login(LoginModel loginModel)
         { 
-           return await _httpClient.PostJsonAsync<User>("api/User/login", loginModel);
+            RestResponse response = await _httpClient.PostJsonAsync<RestResponse>("api/User/login", loginModel, typeof(User));
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return (User) response.ResponseObject;
+            }
+            return null;
         }
     }
 }

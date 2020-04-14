@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Server.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +24,16 @@ namespace Lobster.Server.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<User>> PostLoginModel(LoginModel model)
+        public async Task<RestResponse> PostLoginModel(LoginModel model)
         {
-            return new ActionResult<User>(await _authenticationService.LoginUser(model));
+            return new RestResponse(HttpStatusCode.OK, await _authenticationService.LoginUser(model));
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult<User>> PostRegisterModel(RegisterModel model)
+        public async Task<RestResponse> PostRegisterModel(RegisterModel model)
         {
-            return new ActionResult<User>(await _authenticationService.RegisterUser(model));
+            return new RestResponse(HttpStatusCode.OK, await _authenticationService.RegisterUser(model));
         }
     }
 }

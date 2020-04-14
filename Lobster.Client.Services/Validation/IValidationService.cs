@@ -8,5 +8,6 @@ namespace Lobster.Client.Services.Validation
     {
         bool ValidateLoginInput(string username, string password);
         bool ValidateRegisterInput(string username, string password, string passwordConfirm, string email);
+        bool ValidatePostInput(string content);
     }
 }

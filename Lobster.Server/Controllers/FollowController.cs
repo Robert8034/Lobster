@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Lobster.Core.Data;
+using System.Net;
 
 namespace Lobster.Server.Controllers
 {
@@ -25,10 +27,9 @@ namespace Lobster.Server.Controllers
 
         [HttpPost]
         [Route("getFollows")]
-        public async Task<ActionResult<List<Follow>>>GetFollows(JsonElement userId)
+        public RestResponse GetFollows(JsonElement userId)
         {
-        
-            return new ActionResult<List<Follow>>(await _followService.GetFollows(userId.GetInt32()));
+            return new RestResponse(HttpStatusCode.OK, _followService.GetFollows(userId.GetInt32()));
         }
     }
 }

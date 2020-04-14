@@ -1,5 +1,7 @@
 ﻿using Lobster.Core;
+using Lobster.Core.Data;
 using Lobster.Core.Domain;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -19,7 +21,10 @@ namespace Lobster.Client.Services.FollowServices
 
         public async Task<List<Follow>> GetFollows(int userId)
         {
-           return await _httpClient.PostJsonAsync<List<Follow>>("api/Follow/getFollows", userId);
+            RestResponse response = await _httpClient.PostJsonAsync<RestResponse>("api/Follow/getFollows", userId, typeof(List<Follow>));
+
+            return (List<Follow>)response.ResponseObject;
+           
         }
     }
 }

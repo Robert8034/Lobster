@@ -15,7 +15,7 @@ namespace Lobster.Server.Services.FollowServices
         {
             _followRepository = followRepository;
         }
-        public async Task<List<Follow>> GetFollows(int userId)
+        public List<Follow> GetFollows(int userId)
         {
             return _followRepository.Table.Where(a => a.UserId == userId).ToList();
         }

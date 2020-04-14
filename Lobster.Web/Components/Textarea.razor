@@ -3,8 +3,8 @@
     {
         <span class="input-title">@Title</span>
     }
-    <input @onchange="@Change" type="@Type" placeholder="@Placeholder" class="w-50" />
-    
+    <textarea @onchange="@Change" type="@Type" placeholder="@Placeholder" class="w-50" />
+
 </div>
 
 @code {
@@ -25,10 +25,10 @@
 
     public async Task Change(ChangeEventArgs changeEventArgs)
     {
-        Text = (string) changeEventArgs.Value;
+        Text = (string)changeEventArgs.Value;
         if (OnChange != null)
         {
-            await OnChange.Invoke((string) changeEventArgs.Value);
+            await OnChange.Invoke((string)changeEventArgs.Value);
         }
     }
 

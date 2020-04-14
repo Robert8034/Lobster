@@ -9,6 +9,6 @@ namespace Lobster.Server.Services.PostingServices
 {
     public interface IPostingService
     {
-        public Task<TimelineModel> GetTimeline(List<Follow> follows);
+        public TimelineModel GetTimeline(List<Follow> follows);
     }
 }

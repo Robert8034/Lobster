@@ -18,7 +18,6 @@ namespace Lobster.Web
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.Services.AddBlazoredSessionStorage();
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddSingleton<IValidationService, ValidationService>();
             builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();

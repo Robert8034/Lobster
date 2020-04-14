@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Lobster.Core.Data;
+using Lobster.Core.Domain;
 using Newtonsoft.Json;
 
 namespace Lobster.Core
@@ -13,10 +15,10 @@ namespace Lobster.Core
 
         private const string ConnectionString = "https://localhost:5001/";
      
-        public static async Task<T> PostJsonAsync<T>(this HttpClient httpClient, string url, object data) => await httpClient.SendJsonAsync<T>(HttpMethod.Post, url, data);
+        public static async Task<RestResponse> PostJsonAsync<T>(this HttpClient httpClient, string url, object data, Type type) => await httpClient.SendJsonAsync<T>(HttpMethod.Post, url, data, type);
 
 
-        public static async Task<T> SendJsonAsync<T>(this HttpClient httpClient, HttpMethod method, string url, object data)
+        public static async Task<RestResponse> SendJsonAsync<T>(this HttpClient httpClient, HttpMethod method, string url, object data, Type type)
         {
             var response = await httpClient.SendAsync(new HttpRequestMessage(method, ConnectionString + url)
             {
@@ -24,7 +26,10 @@ namespace Lobster.Core
             });
 
             var stringContent = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(stringContent);
+
+            RestResponse restResponse = JsonConvert.DeserializeObject<RestResponse>(stringContent);
+            restResponse.ResponseObject = JsonConvert.DeserializeObject(restResponse.ResponseObject.ToString(), type);
+            return restResponse;
         }
     }
 }

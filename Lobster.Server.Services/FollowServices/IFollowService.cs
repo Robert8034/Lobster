@@ -8,6 +8,6 @@ namespace Lobster.Server.Services.FollowServices
 {
     public interface IFollowService
     {
-        public Task<List<Follow>> GetFollows(int userId);
+        public List<Follow> GetFollows(int userId);
     }
 }

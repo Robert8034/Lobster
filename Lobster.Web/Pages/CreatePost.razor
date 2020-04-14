@@ -1,0 +1,38 @@
+﻿@page "/createpost"
+@inject NavigationManager NavigationManager
+@inject IPostingService PostingService
+@inject IValidationService ValidationService
+@inject ILocalStorageService localStorage
+
+@layout FormLayout
+
+    <h3>CreatePost</h3>
+
+<GenericForm>
+    <Textarea @ref="Content" Title="Content" Type="text" Placeholder="Sample Text" OnChange="@ValidateInput"></Textarea>
+    <Button @ref="PostButton" Title="Post" OnClick="@Post"></Button>
+</GenericForm>
+
+
+@code {
+
+    private Button PostButton;
+    private Textarea Content;
+
+    private async Task Post()
+    {
+        await PostingService.CreateNewPost(new PostModel
+        {
+            Content = Content.Text,
+            UserId = await localStorage.GetItemAsync<int>("userId")
+        }
+    );
+    }
+
+    private Task ValidateInput(string value)
+    {
+        PostButton.ToggleEnabled(ValidationService.ValidatePostInput(Content.Text));
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}

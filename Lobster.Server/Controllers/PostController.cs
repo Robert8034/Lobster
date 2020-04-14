@@ -1,10 +1,12 @@
-﻿using Lobster.Core.Domain;
+﻿using Lobster.Core.Data;
+using Lobster.Core.Domain;
 using Lobster.Core.Models;
 using Lobster.Server.Services.PostingServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Lobster.Server.Controllers
@@ -22,9 +24,9 @@ namespace Lobster.Server.Controllers
         
         [HttpPost]
         [Route("generatetimeline")]
-        public async Task<ActionResult<TimelineModel>> GenerateTimeline(List<Follow> follows)
+        public RestResponse GenerateTimeline(List<Follow> follows)
         {
-            return new ActionResult<TimelineModel>(await _postingService.GetTimeline(follows));
+            return new RestResponse(HttpStatusCode.OK, _postingService.GetTimeline(follows));
         }
     }
 }
