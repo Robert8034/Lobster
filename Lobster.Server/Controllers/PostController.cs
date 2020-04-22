@@ -28,5 +28,12 @@ namespace Lobster.Server.Controllers
         {
             return new RestResponse(HttpStatusCode.OK, _postingService.GetTimeline(follows));
         }
+
+        [HttpPost]
+        public RestResponse CreateNewPost(PostModel postModel)
+        {
+            _postingService.CreatePost(postModel);
+            return new RestResponse(HttpStatusCode.OK);
+        }
     }
 }

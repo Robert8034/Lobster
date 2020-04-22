@@ -28,7 +28,7 @@ namespace Lobster.Core
             var stringContent = await response.Content.ReadAsStringAsync();
 
             RestResponse restResponse = JsonConvert.DeserializeObject<RestResponse>(stringContent);
-            restResponse.ResponseObject = JsonConvert.DeserializeObject(restResponse.ResponseObject.ToString(), type);
+            if (restResponse.ResponseObject != null) restResponse.ResponseObject = JsonConvert.DeserializeObject(restResponse.ResponseObject.ToString(), type);
             return restResponse;
         }
     }

@@ -22,5 +22,15 @@ namespace Lobster.Server.Services.PostingServices
         {
             return new TimelineModel();
         }
+
+        public void CreatePost(PostModel postModel)
+        {
+            _postRepository.Insert(new Post
+            {
+                Content = postModel.Content,
+                PostDate = DateTime.Now,
+                UserId = postModel.UserId
+            });
+        }
     }
 }

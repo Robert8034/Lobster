@@ -180,4 +180,23 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+    .grid {
+        display: flex;
+        flex-grow: 1;
+    }
+    .grid-column {
+    }
+
+    .grid-column {
+        width: 100%;
+    }
+
+    .grid-item {
+        margin: 8px;
+    }
+    .card {
+        background-color: blue;
+        padding: 16px;
+    }
 }

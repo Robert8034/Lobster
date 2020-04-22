@@ -36,7 +36,7 @@ namespace Lobster.Client.Services.Posting
 
         public async Task CreateNewPost(PostModel postModel)
         {
-           await _httpClient.PostJsonAsync<RestResponse>("api/Post/post", postModel, null);
+           await _httpClient.PostJsonAsync<RestResponse>("api/Post", postModel, null);
         }
     }
 }

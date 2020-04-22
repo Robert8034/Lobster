@@ -1,7 +1,7 @@
 ﻿<div class="input m-2">
     @if (!string.IsNullOrEmpty(Title))
     {
-        <span class="input-title">@Title</span>
+        <span class="input-title">@Title</span><br />
     }
     <textarea @onchange="@Change" type="@Type" placeholder="@Placeholder" class="w-50" />
 
