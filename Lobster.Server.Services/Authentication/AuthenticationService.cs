@@ -20,7 +20,7 @@ namespace Lobster.Server.Services.Authentication
             _userRepository = userRepository;
             _encryptionService = encryptionService;
         }
-        public async Task<User> LoginUser(LoginModel loginModel)
+        public User LoginUser(LoginModel loginModel)
         {
             
             User tempUser =  _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
@@ -29,7 +29,7 @@ namespace Lobster.Server.Services.Authentication
             
             return null;
         }
-        public async Task<User> RegisterUser(RegisterModel registerModel)
+        public User RegisterUser(RegisterModel registerModel)
         {
             if (_userRepository.Table.SingleOrDefault(a => a.Username == registerModel.Username) == null)
             {

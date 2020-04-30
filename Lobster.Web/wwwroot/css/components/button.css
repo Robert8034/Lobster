@@ -1,0 +1,24 @@
+﻿.button-small {
+    width: 64px;
+}
+
+.button-medium {
+    width: 96px;
+}
+
+.button-big {
+    width: 128px;
+}
+
+.button-full {
+    width: 100%;
+}
+
+.button {
+    border: 0px;
+    border-radius: 6px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

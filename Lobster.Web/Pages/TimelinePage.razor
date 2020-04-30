@@ -3,36 +3,45 @@
 @inject IPostingService PostingService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage;
 @inject IFollowService FollowService
+@inject IUserService UserService
 
 <h3>Timeline</h3>
 
 <Button Title="Create New Post" OnClick="@NavigateToNewPostForm" Enabled="true"></Button>
 
-<Grid>
-    <GridColumn>
+@if (timelinePosts == null)
+{
+    <p1>It's pretty empty here... Start following some people?</p1>
+}
+
+else
+{
+    <Timeline>
         @foreach (var post in timelinePosts)
         {
-            <GridItem>
-                <Card>
-                   <p1>Content: @post.Content</p1><br />
-                    <p1>Date: @post.PostDate</p1>
-                </Card>
-            </GridItem>
+             
+        <Card>
+            <Paragraph OnClick="@(() => NavigateToUser(timelineUsers.Find(e => e.Id == post.UserId).Id))" Text="@timelineUsers.Find(e => e.Id == post.UserId).Username"></Paragraph>
+            <p1>@post.Content</p1><br />
+            <p1>Date: @post.PostDate</p1>
+            
+        </Card>
 
         }
-    </GridColumn>
-</Grid>
-
+    </Timeline>
+}
 
 @code {
 
-    private List<Post> timelinePosts = new List<Post>();
+    private List<Post> timelinePosts;
+    private List<User> timelineUsers;
 
     protected override async Task OnInitializedAsync()
     {
         int userId = await localStorage.GetItemAsync<int>("userId");
         List<Follow> follows = await FollowService.GetFollows(userId);
         timelinePosts = await PostingService.GenerateTimeline(follows);
+        timelineUsers = await UserService.GetTimelineUsers(follows);
 
     }
 
@@ -41,4 +50,11 @@
         NavigationManager.NavigateTo("/createpost");
         return Task.CompletedTask;
     }
+
+    private Task NavigateToUser(int userId)
+    {
+        Console.WriteLine(userId);
+        return Task.CompletedTask;
+    }
 }
+

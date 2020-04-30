@@ -1,0 +1,13 @@
+﻿
+ .paragraph {
+    background-color: blue;
+}
+
+.paragraph:hover {
+    cursor: pointer;
+    background-color: lightpink;
+}
+
+.paragraph:enabled {
+    height: 1000px;
+}

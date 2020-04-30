@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Server.Services.Authentication;
+using Lobster.Server.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lobster.Server.Controllers
@@ -17,23 +18,36 @@ namespace Lobster.Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        public UserController(IAuthenticationService authenticationService)
+        private readonly IUserService _userService;
+        public UserController(IAuthenticationService authenticationService, IUserService userService)
         {
             _authenticationService = authenticationService;
+            _userService = userService;
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<RestResponse> PostLoginModel(LoginModel model)
+        public RestResponse PostLoginModel(LoginModel model)
         {
-            return new RestResponse(HttpStatusCode.OK, await _authenticationService.LoginUser(model));
+            return new RestResponse(HttpStatusCode.OK, _authenticationService.LoginUser(model));
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<RestResponse> PostRegisterModel(RegisterModel model)
+        public RestResponse PostRegisterModel(RegisterModel model)
         {
-            return new RestResponse(HttpStatusCode.OK, await _authenticationService.RegisterUser(model));
+            return new RestResponse(HttpStatusCode.OK, _authenticationService.RegisterUser(model));
+        }
+
+        [HttpGet]
+        [Route("{userId}/public")]
+        public RestResponse GetPublicUserData(int userId)
+        {
+            User user = _userService.GetPublicUserData(userId);
+
+            if (user != null) return new RestResponse(HttpStatusCode.OK, user);
+
+            return new RestResponse(HttpStatusCode.NotFound);
         }
     }
 }

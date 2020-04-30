@@ -7,6 +7,7 @@ using Lobster.Server.Services.Authentication;
 using Lobster.Server.Services.EncryptionServices;
 using Lobster.Server.Services.FollowServices;
 using Lobster.Server.Services.PostingServices;
+using Lobster.Server.Services.UserServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ namespace Lobster.Server
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IFollowService, FollowService>();
             services.AddScoped<IPostingService, PostingService>();
+            services.AddScoped<IUserService, UserService>();
             
         }
 

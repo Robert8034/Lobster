@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService localStorage
 
 <div class="sidebar">
     <NavMenu />
@@ -6,10 +8,38 @@
 
 <div class="main">
     <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        @if (userId != 0)
+        {
+            <Button Title="Log Out" OnClick="@LogOut" Enabled="true" Size="ButtonSize.Medium"></Button>
+        }
+        else
+        {
+            <Button Title="Log In" OnClick="@LogIn" Enabled="true" Size="ButtonSize.Medium"></Button>
+        }
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@code {
+    private int userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userId = await localStorage.GetItemAsync<int>("userId");
+    }
+
+    private async Task LogOut()
+    {
+        await localStorage.RemoveItemAsync("userId");
+        NavigationManager.NavigateTo("/authentication");
+    }
+
+    private Task LogIn()
+    {
+        NavigationManager.NavigateTo("/authentication");
+        return Task.CompletedTask;
+    }
+}

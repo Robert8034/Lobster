@@ -10,6 +10,7 @@ using Lobster.Client.Services.Posting;
 using Lobster.Client.Services.FollowServices;
 using Blazored.SessionStorage;
 using Blazored.LocalStorage;
+using Lobster.Client.Services.UserServices;
 
 namespace Lobster.Web
 {
@@ -23,6 +24,7 @@ namespace Lobster.Web
             builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
             builder.Services.AddSingleton<IPostingService, PostingService>();
             builder.Services.AddSingleton<IFollowService, FollowService>();
+            builder.Services.AddSingleton<IUserService, UserService>();
             builder.RootComponents.Add<App>("app");
 
             await builder.Build().RunAsync();
