@@ -166,6 +166,9 @@ namespace Lobster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int?>("GroupPostId")
                         .HasColumnType("int");
 

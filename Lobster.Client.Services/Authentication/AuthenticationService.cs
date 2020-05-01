@@ -29,7 +29,7 @@ namespace Lobster.Client.Services.Authentication
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<User>(response.ResponseObject.ToString());
+                return (User)response.ResponseObject;
 
             }
             return null;

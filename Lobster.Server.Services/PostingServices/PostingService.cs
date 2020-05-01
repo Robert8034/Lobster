@@ -21,12 +21,14 @@ namespace Lobster.Server.Services.PostingServices
 
         public TimelineModel GetTimeline(List<Follow> follows)
         {
-            TimelineModel timelineModel = new TimelineModel();    
+            TimelineModel timelineModel = new TimelineModel();
 
             foreach (var follow in follows)
             {
-                timelineModel.Timeline.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowId));
+                timelineModel.Timeline.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowId).ToList());
+
             }
+
             return timelineModel;
         }
 
@@ -36,7 +38,9 @@ namespace Lobster.Server.Services.PostingServices
             {
                 Content = postModel.Content,
                 PostDate = DateTime.Now,
-                UserId = postModel.UserId
+                UserId = postModel.UserId,
+                Likes = new List<Like>(),
+                Reactions = new List<Reaction>()
             });
         }
     }

@@ -192,6 +192,7 @@ namespace Lobster.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PostId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
+                    Content = table.Column<string>(nullable: true),
                     GroupPostId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

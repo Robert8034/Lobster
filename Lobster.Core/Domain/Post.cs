@@ -7,6 +7,7 @@ namespace Lobster.Core.Domain
 {
     public class Post : BaseEntity
     {
+    
         public int UserId { get; set; }
         public string Content { get; set; }
         public DateTime PostDate { get; set; }
