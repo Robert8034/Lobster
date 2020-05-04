@@ -7,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Lobster.Core;
 using Lobster.Core.Data;
-using Lobster.Core.Domain;
+using Lobster.Core.Models.Users;
+using Lobster.Core.Models;
 using Newtonsoft.Json;
 
 namespace Lobster.Client.Services.Authentication

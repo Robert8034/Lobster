@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lobster.Core.Data;
-using Lobster.Core.Domain;
+using Lobster.Core.Models;
+using Lobster.Core.Models.Users;
 using Lobster.Server.Services.Authentication;
 using Lobster.Server.Services.UserServices;
 using Microsoft.AspNetCore.Mvc;
@@ -19,33 +22,41 @@ namespace Lobster.Server.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
-        public UserController(IAuthenticationService authenticationService, IUserService userService)
+        private readonly IMapper _mapper;
+
+        public UserController(IAuthenticationService authenticationService, IUserService userService, IMapper mapper)
         {
             _authenticationService = authenticationService;
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [Route("login")]
         public RestResponse PostLoginModel(LoginModel model)
         {
-            return new RestResponse(HttpStatusCode.OK, _authenticationService.LoginUser(model));
+            var user = _authenticationService.LoginUser(model);
+
+            User usermodel = _mapper.Map<User>(user);
+
+            return new RestResponse(HttpStatusCode.OK, _mapper.Map<User>(user));
         }
 
         [HttpPost]
         [Route("register")]
         public RestResponse PostRegisterModel(RegisterModel model)
         {
-            return new RestResponse(HttpStatusCode.OK, _authenticationService.RegisterUser(model));
+            var user = _authenticationService.RegisterUser(model);
+            return new RestResponse(HttpStatusCode.OK, _mapper.Map<User>(user));
         }
 
         [HttpGet]
         [Route("{userId}/public")]
         public RestResponse GetPublicUserData(int userId)
         {
-            User user = _userService.GetPublicUserData(userId);
+            var user = _userService.GetPublicUserData(userId);
 
-            if (user != null) return new RestResponse(HttpStatusCode.OK, user);
+            if (user != null) return new RestResponse(HttpStatusCode.OK, _mapper.Map<User>(user));
 
             return new RestResponse(HttpStatusCode.NotFound);
         }

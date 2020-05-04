@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lobster.Server.Services.PostingServices
 {
@@ -19,17 +20,17 @@ namespace Lobster.Server.Services.PostingServices
             _postRepository = postRepository;
         }
 
-        public TimelineModel GetTimeline(List<Follow> follows)
+        public List<Post> GetTimeline(List<Core.Models.Follows.Follow> follows)
         {
-            TimelineModel timelineModel = new TimelineModel();
+            List<Post> posts = new List<Post>();
 
             foreach (var follow in follows)
             {
-                timelineModel.Timeline.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowId).ToList());
+                posts.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowId).Include(post => post.Likes).Include(post => post.Reactions).ToList());
 
             }
 
-            return timelineModel;
+            return posts;
         }
 
         public void CreatePost(PostModel postModel)

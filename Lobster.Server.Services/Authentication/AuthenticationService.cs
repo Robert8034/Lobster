@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Core.Domain.Roles;
+using Lobster.Core.Models;
 using Lobster.Data;
 using Lobster.Server.Services.EncryptionServices;
 
@@ -15,6 +17,7 @@ namespace Lobster.Server.Services.Authentication
     {
         private readonly IRepository<User> _userRepository;
         private readonly IEncryptionService _encryptionService;
+
         public AuthenticationService(IRepository<User> userRepository, IEncryptionService encryptionService)
         {
             _userRepository = userRepository;
@@ -22,11 +25,10 @@ namespace Lobster.Server.Services.Authentication
         }
         public User LoginUser(LoginModel loginModel)
         {
-            
-            User tempUser =  _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
+            var tempUser =  _userRepository.Table.SingleOrDefault(a => a.Username == loginModel.Username);
 
             if (tempUser != null && _encryptionService.Decrypt(tempUser.Password, tempUser.EncryptionKey) == loginModel.Password) return tempUser;
-            
+           
             return null;
         }
         public User RegisterUser(RegisterModel registerModel)

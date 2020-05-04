@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lobster.Core.Domain
+namespace Lobster.Core.Models
 {
     public class RegisterModel
     {

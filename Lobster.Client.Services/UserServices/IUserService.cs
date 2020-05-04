@@ -1,4 +1,5 @@
-﻿using Lobster.Core.Domain;
+﻿using Lobster.Core.Models.Follows;
+using Lobster.Core.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;

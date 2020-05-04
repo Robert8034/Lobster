@@ -1,12 +1,19 @@
-﻿using Lobster.Core.Data;
+﻿using AutoMapper;
+using Lobster.Core.Models.Follows;
+using Lobster.Core.Models.GroupMessages;
+using Lobster.Core.Models.Posts;
+using Lobster.Core.Models.Roles;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lobster.Core.Domain
+namespace Lobster.Core.Models.Users
 {
-    public class User : BaseEntity
+    [AutoMap(typeof(Domain.User))]
+
+    public class User
     {
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string EncryptionKey { get; set; }

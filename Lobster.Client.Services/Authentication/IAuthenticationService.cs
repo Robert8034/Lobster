@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Lobster.Core.Models;
+using Lobster.Core.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Lobster.Core.Domain;
 
 namespace Lobster.Client.Services.Authentication
 {

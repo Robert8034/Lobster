@@ -1,7 +1,7 @@
 ﻿using Lobster.Core;
 using Lobster.Core.Data;
-using Lobster.Core.Domain;
 using Lobster.Core.Models;
+using Lobster.Core.Models.Posts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,9 +22,9 @@ namespace Lobster.Client.Services.Posting
 
         }
 
-        public async Task<List<Post>> GenerateTimeline(List<Follow> follows)
+        public async Task<List<Post>> GenerateTimeline(int userId)
         {
-            RestResponse response = await _httpClient.PostJsonAsync<RestResponse>("api/Post/generatetimeline", follows, typeof(TimelineModel));
+            RestResponse response = await _httpClient.GetJsonAsync<RestResponse>("api/Post/generatetimeline/" + userId, typeof(TimelineModel));
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

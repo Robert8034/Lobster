@@ -1,6 +1,6 @@
 ﻿using Lobster.Core;
 using Lobster.Core.Data;
-using Lobster.Core.Domain;
+using Lobster.Core.Models.Follows;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

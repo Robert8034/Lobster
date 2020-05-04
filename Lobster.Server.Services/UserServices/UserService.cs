@@ -2,6 +2,7 @@
 using Lobster.Core.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 
@@ -17,15 +18,9 @@ namespace Lobster.Server.Services.UserServices
         }
         public User GetPublicUserData(int userId)
         {
-            User temp = _userRepository.Table.SingleOrDefault(usr => usr.Id == userId);
+           return _userRepository.Table.SingleOrDefault(usr => usr.Id == userId);
 
-            return new User
-            {
-                Username = temp.Username,
-                Id = temp.Id,
-                Karma = temp.Karma,
-
-            };
         }
     }
 }
+ 

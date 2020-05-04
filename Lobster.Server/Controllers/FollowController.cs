@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Lobster.Core.Data;
 using System.Net;
+using AutoMapper;
 
 namespace Lobster.Server.Controllers
 {
@@ -19,17 +20,19 @@ namespace Lobster.Server.Controllers
     public class FollowController : ControllerBase
     {
         private readonly IFollowService _followService;
+        private readonly IMapper _mapper;
 
-        public FollowController(IFollowService followService)
+        public FollowController(IFollowService followService, IMapper mapper)
         {
             _followService = followService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [Route("getFollows")]
         public RestResponse GetFollows(JsonElement userId)
         {
-            return new RestResponse(HttpStatusCode.OK, _followService.GetFollows(userId.GetInt32()));
+            return new RestResponse(HttpStatusCode.OK, _mapper.Map<List<Core.Models.Follows.Follow>>(_followService.GetFollows(userId.GetInt32())));
         }
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lobster.Data.Migrations
 {
     [DbContext(typeof(LobsterContext))]
-    [Migration("20200501132308_InitialCreate")]
+    [Migration("20200504124020_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

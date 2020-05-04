@@ -1,5 +1,4 @@
 ﻿@page "/authentication"
-@using Lobster.Core.Domain
 @inject IValidationService ValidationService
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
@@ -48,7 +47,7 @@ else
     {
         if (IsLoggingIn)
         {
-            User result = await AuthenticationService.Login(new LoginModel(LoginUsername.Text, LoginPassword.Text));
+            var result = await AuthenticationService.Login(new LoginModel(LoginUsername.Text, LoginPassword.Text));
             if (result != null)
             {
                 await localStorage.SetItemAsync("userId", result.Id);

@@ -9,7 +9,7 @@ namespace Lobster.Server.Services.PostingServices
 {
     public interface IPostingService
     {
-        public TimelineModel GetTimeline(List<Follow> follows);
+        public List<Post> GetTimeline(List<Core.Models.Follows.Follow> follows);
         public void CreatePost(PostModel postModel);
     }
 }

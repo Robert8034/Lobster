@@ -1,4 +1,4 @@
-﻿using Lobster.Core.Domain;
+﻿using Lobster.Core.Models.Posts;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,4 +1,5 @@
 ﻿@page "/timeline"
+@using Lobster.Core.Models.Follows
 @inject NavigationManager NavigationManager
 @inject IPostingService PostingService
 @inject Blazored.LocalStorage.ILocalStorageService localStorage;
@@ -24,23 +25,8 @@ else
             <Paragraph OnClick="@(() => NavigateToUser(timelineUsers.Find(e => e.Id == post.UserId).Id))" Text="@timelineUsers.Find(e => e.Id == post.UserId).Username"></Paragraph>
             <p1>@post.Content</p1><br />
             <p1>Date: @post.PostDate</p1><br />
-            @if (post.Likes != null && post.Reactions != null)
-            {
-                <p1>Likes: @post.Likes.Count                      Reactions: @post.Reactions.Count</p1>
-            }
-            else if (post.Likes == null && post.Reactions != null)
-            {
-                <p1>Likes: 0                      Reactions: @post.Reactions.Count</p1>
-            }
-            else if (post.Reactions == null && post.Likes != null)
-            {
-                <p1>Likes: @post.Likes.Count                      Reactions: 0</p1>
-            }
-            else
-            {
-                <p1>Likes: 0                     Reactions: 0</p1>
-            }
-
+            <p1>Likes: @post.Likes.Count                      Reactions: @post.Reactions.Count</p1> 
+          
         </Card>
 
         }
@@ -56,7 +42,7 @@ else
     {
         int userId = await localStorage.GetItemAsync<int>("userId");
         List<Follow> follows = await FollowService.GetFollows(userId);
-        timelinePosts = await PostingService.GenerateTimeline(follows);
+        timelinePosts = await PostingService.GenerateTimeline(userId);
         timelineUsers = await UserService.GetTimelineUsers(follows);
 
     }

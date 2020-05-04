@@ -1,5 +1,7 @@
 
 using Application.Data;
+using AutoMapper;
+using Lobster.Core;
 using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Lobster.Data;
@@ -29,8 +31,11 @@ namespace Lobster.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<DbContext, LobsterContext>();
             services.AddControllers();
+
+            //services.AddSingleton<DbContext, LobsterContext>();
+            services.AddDbContext<DbContext, LobsterContext>();
+
             services.AddScoped<IRepository<BaseEntity>, Repository<BaseEntity>>();
             services.AddScoped<IRepository<User>, Repository<User>>();
             services.AddScoped<IRepository<Post>, Repository<Post>>();
@@ -40,7 +45,10 @@ namespace Lobster.Server
             services.AddScoped<IFollowService, FollowService>();
             services.AddScoped<IPostingService, PostingService>();
             services.AddScoped<IUserService, UserService>();
-            
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +72,9 @@ namespace Lobster.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToClientSideBlazor<Web.Program>("index.html");
             });
+
+            app.EnsureMigrated();
+
         }
     }
 }
