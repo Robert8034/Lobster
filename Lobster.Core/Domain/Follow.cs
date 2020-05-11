@@ -8,8 +8,9 @@ namespace Lobster.Core.Domain
     public class Follow : BaseEntity
     {
         public int UserId { get; set; }
-
-        public int FollowId { get; set; }
+        public User User { get; set; }
+        public int FollowerId { get; set; }
+        public User Follower { get; set; }
 
     }
 }

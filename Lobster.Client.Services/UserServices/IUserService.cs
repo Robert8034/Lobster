@@ -9,6 +9,7 @@ namespace Lobster.Client.Services.UserServices
 {
     public interface IUserService
     {
-        Task<List<User>> GetTimelineUsers(List<Follow> follows);
+        Task<List<User>> GetTimelineUsers(List<Follow> follows); 
+        Task<User> GetPublicUserInfo(int userId);
     }
 }

@@ -15,5 +15,6 @@ namespace Lobster.Core.Domain
         public Role Role { get; set; }
         public List<GroupMessage> Messages { get; set; }
         public List<Follow> Follows { get; set; }
+
     }
 }

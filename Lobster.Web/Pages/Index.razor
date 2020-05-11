@@ -1,20 +1,4 @@
 ﻿@page "/"
 
-<h1 @onclick="OnClick">Hello, world!</h1>
 
-Welcome to your new app.
 
-<GenericForm>
-    <Input @ref="input" Type="text" Placeholder="Username" />
-    <Input Type="password" Placeholder="Password" />
-</GenericForm>
-
-@code
-{
-    private Input input;
-
-    private void OnClick()
-    {
-        Console.WriteLine(input.Text);
-    }
-}

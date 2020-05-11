@@ -2,9 +2,9 @@
 using Lobster.Core.Domain;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Linq;
 
 namespace Lobster.Server.Services.UserServices
 {
@@ -18,8 +18,16 @@ namespace Lobster.Server.Services.UserServices
         }
         public User GetPublicUserData(int userId)
         {
-           return _userRepository.Table.SingleOrDefault(usr => usr.Id == userId);
+            var tempUser = _userRepository.Table.Include(e => e.Follows).ThenInclude(e => e.Follower).SingleOrDefault(usr => usr.Id == userId);
 
+            return new User()
+            {
+                Username = tempUser.Username,
+                Karma = tempUser.Karma,
+                Follows = tempUser.Follows,
+                Id = tempUser.Id
+            };
+             
         }
     }
 }

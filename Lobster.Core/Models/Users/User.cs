@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Lobster.Core.Models.Follows;
 using Lobster.Core.Models.GroupMessages;
-using Lobster.Core.Models.Posts;
 using Lobster.Core.Models.Roles;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Lobster.Core.Models.Users
 {

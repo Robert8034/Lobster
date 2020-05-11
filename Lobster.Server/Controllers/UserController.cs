@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.IO;
-using System.Linq;
+﻿
 using System.Net;
-using System.Threading.Tasks;
 using AutoMapper;
 using Lobster.Core.Data;
 using Lobster.Core.Models;
@@ -39,7 +34,7 @@ namespace Lobster.Server.Controllers
 
             User usermodel = _mapper.Map<User>(user);
 
-            return new RestResponse(HttpStatusCode.OK, _mapper.Map<User>(user));
+            return new RestResponse(HttpStatusCode.OK, usermodel);
         }
 
         [HttpPost]
@@ -55,6 +50,8 @@ namespace Lobster.Server.Controllers
         public RestResponse GetPublicUserData(int userId)
         {
             var user = _userService.GetPublicUserData(userId);
+
+            var userModel = _mapper.Map<Core.Models.Users.User>(user);
 
             if (user != null) return new RestResponse(HttpStatusCode.OK, _mapper.Map<User>(user));
 

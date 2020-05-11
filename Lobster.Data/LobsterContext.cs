@@ -6,12 +6,16 @@ using System.Text;
 using Lobster.Core.Domain;
 using Lobster.Data.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Lobster.Data
 {
     public class LobsterContext : DbContext
     {
-            
+
+        public static readonly ILoggerFactory MyLoggerFactory
+            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
@@ -38,6 +42,7 @@ namespace Lobster.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.UseMySql(
                    "Server=localhost;Port=3306;Database=LobsterBase;User=root;Password=Wachtwoord12345;");
 

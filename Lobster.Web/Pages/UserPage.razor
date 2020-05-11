@@ -1,0 +1,26 @@
+﻿@page "/users/{UserId:int}"
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+
+
+@code {
+
+    [Parameter]
+    public int UserId { get; set; }
+
+    private User _user = new User();
+
+    private int _followCount;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        _user = await UserService.GetPublicUserInfo(UserId);
+        _followCount = _user.Follows.Count;
+        Console.WriteLine(_followCount);
+    }
+}
+
+<p1>@_user.Username</p1><br />
+<p1>@_user.Karma</p1><br />
+<p1>@_followCount</p1>

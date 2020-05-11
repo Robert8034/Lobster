@@ -25,7 +25,7 @@ namespace Lobster.Client.Services.UserServices
             List<User> TimelineUsers = new List<User>();
             foreach (var follow in follows)
             {
-                TimelineUsers.Add(await GetPublicUserInfo(follow.FollowId));
+                TimelineUsers.Add(await GetPublicUserInfo(follow.FollowerId));
             }
 
             return TimelineUsers;
@@ -35,8 +35,10 @@ namespace Lobster.Client.Services.UserServices
         {
             RestResponse restResponse = await _httpClient.GetJsonAsync<RestResponse>("api/User/" + userId + "/public", typeof(User));
 
-            if (restResponse.StatusCode == HttpStatusCode.OK) return (User)restResponse.ResponseObject;
-
+            if (restResponse.StatusCode == HttpStatusCode.OK)
+            {
+                return (User)restResponse.ResponseObject;
+            }
             return null;
         }
     }

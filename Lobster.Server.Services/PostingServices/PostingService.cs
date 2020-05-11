@@ -4,9 +4,6 @@ using Lobster.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lobster.Server.Services.PostingServices
@@ -26,10 +23,9 @@ namespace Lobster.Server.Services.PostingServices
 
             foreach (var follow in follows)
             {
-                posts.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowId).Include(post => post.Likes).Include(post => post.Reactions).ToList());
+                posts.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowerId).Include(post => post.Likes).Include(post => post.Reactions).ToList());
 
             }
-
             return posts;
         }
 

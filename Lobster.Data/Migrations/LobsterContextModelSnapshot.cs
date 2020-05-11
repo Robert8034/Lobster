@@ -23,13 +23,15 @@ namespace Lobster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("FollowId")
+                    b.Property<int>("FollowerId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
 
                     b.HasIndex("UserId");
 
@@ -155,8 +157,6 @@ namespace Lobster.Data.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Posts");
                 });
 
@@ -237,7 +237,13 @@ namespace Lobster.Data.Migrations
 
             modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
                 {
-                    b.HasOne("Lobster.Core.Domain.User", null)
+                    b.HasOne("Lobster.Core.Domain.User", "Follower")
+                        .WithMany()
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lobster.Core.Domain.User", "User")
                         .WithMany("Follows")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -271,12 +277,6 @@ namespace Lobster.Data.Migrations
                     b.HasOne("Lobster.Core.Domain.Group", null)
                         .WithMany("Messages")
                         .HasForeignKey("GroupId");
-
-                    b.HasOne("Lobster.Core.Domain.User", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lobster.Core.Domain.Reaction", b =>

@@ -55,7 +55,7 @@ else
 
     private Task NavigateToUser(int userId)
     {
-        Console.WriteLine(userId);
+        NavigationManager.NavigateTo("/users/" + userId);
         return Task.CompletedTask;
     }
 }

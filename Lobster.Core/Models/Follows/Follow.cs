@@ -10,7 +10,7 @@ namespace Lobster.Core.Models.Follows
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int FollowId { get; set; }
+        public int FollowerId { get; set; }
 
     }
 }

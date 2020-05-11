@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lobster.Data.Migrations
 {
     [DbContext(typeof(LobsterContext))]
-    [Migration("20200504124020_InitialCreate")]
+    [Migration("20200511095143_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,13 +25,15 @@ namespace Lobster.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("FollowId")
+                    b.Property<int>("FollowerId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
 
                     b.HasIndex("UserId");
 
@@ -157,8 +159,6 @@ namespace Lobster.Data.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Posts");
                 });
 
@@ -239,7 +239,13 @@ namespace Lobster.Data.Migrations
 
             modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
                 {
-                    b.HasOne("Lobster.Core.Domain.User", null)
+                    b.HasOne("Lobster.Core.Domain.User", "Follower")
+                        .WithMany()
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lobster.Core.Domain.User", "User")
                         .WithMany("Follows")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -273,12 +279,6 @@ namespace Lobster.Data.Migrations
                     b.HasOne("Lobster.Core.Domain.Group", null)
                         .WithMany("Messages")
                         .HasForeignKey("GroupId");
-
-                    b.HasOne("Lobster.Core.Domain.User", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lobster.Core.Domain.Reaction", b =>
