@@ -27,6 +27,7 @@
             UserId = await localStorage.GetItemAsync<int>("userId")
         }
     );
+        NavigationManager.NavigateTo("/timeline");
     }
 
     private Task ValidateInput(string value)

@@ -192,4 +192,11 @@ app {
         padding: 16px;
         margin-bottom: 20px;
     }
+    .paragraph {
+        text-decoration: none;
+    }
+    .paragraph:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
 }

@@ -5,6 +5,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage;
 @inject IFollowService FollowService
 @inject IUserService UserService
+@inject ILikingService LikingService
 
 <h3>Timeline</h3>
 
@@ -25,10 +26,18 @@ else
             <Paragraph OnClick="@(() => NavigateToUser(timelineUsers.Find(e => e.Id == post.UserId).Id))" Text="@timelineUsers.Find(e => e.Id == post.UserId).Username"></Paragraph>
             <p1>@post.Content</p1><br />
             <p1>Date: @post.PostDate</p1><br />
-            <p1>Likes: @post.Likes.Count                      Reactions: @post.Reactions.Count</p1> 
-          
-        </Card>
+            <p1>Likes: @post.Likes.Count                      Reactions: @post.Reactions.Count</p1> <br />
+            @if (post.Likes.Find(e => e.UserId == UserId) == null)
+            {
+                <Button Title="Like" OnClick="@(() => LikePost(post.Id))" Enabled="true"></Button>
+            }
+            else
+            {
+                <Button Title="Like" OnClick="@(() => LikePost(post.Id))" Enabled="false"></Button>
+            }
+            <Button Title="Comment" OnClick="@(() => CommentPost(post.Id))" Enabled="true"></Button>
 
+        </Card>
         }
     </Timeline>
 }
@@ -37,14 +46,14 @@ else
 
     private List<Post> timelinePosts;
     private List<User> timelineUsers;
+    private int UserId;
 
     protected override async Task OnInitializedAsync()
     {
-        int userId = await localStorage.GetItemAsync<int>("userId");
-        List<Follow> follows = await FollowService.GetFollows(userId);
-        timelinePosts = await PostingService.GenerateTimeline(userId);
+        UserId = await localStorage.GetItemAsync<int>("userId");
+        List<Follow> follows = await FollowService.GetFollows(UserId);
+        timelinePosts = await PostingService.GenerateTimeline(UserId);
         timelineUsers = await UserService.GetTimelineUsers(follows);
-
     }
 
     private Task NavigateToNewPostForm()
@@ -57,6 +66,18 @@ else
     {
         NavigationManager.NavigateTo("/users/" + userId);
         return Task.CompletedTask;
+    }
+
+    private async Task LikePost(int postId)
+    {
+        Post post = await LikingService.LikePost(UserId, postId);
+        timelinePosts.Find(e => e.Id == postId).Likes = post.Likes;
+        StateHasChanged();
+    }
+
+    private async Task CommentPost(int postId)
+    {
+
     }
 }
 

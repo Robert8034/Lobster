@@ -2,6 +2,26 @@
 @inject IUserService UserService
 @inject NavigationManager NavigationManager
 
+<p1>Username: @_user.Username</p1>
+<br />
+<p1>Karma: @_user.Karma</p1>
+<br />
+@if (_user?.Follows != null)
+{
+    string text = "Followers: " + @_user.Follows.Count.ToString();
+    <Paragraph OnClick="@ToggleFollowList" Text="@text"></Paragraph>
+}
+
+@if (FollowList && _user?.Follows != null)
+{
+    @foreach(var follow in _user.Follows)
+    {
+
+        <Card>
+            <Paragraph Text="@FollowInfoList.Find(e => e.Id == follow.FollowerId).Username" OnClick="@(() => NavigateToUser(follow.FollowerId))"></Paragraph>
+        </Card>
+    }
+}
 
 @code {
 
@@ -10,17 +30,50 @@
 
     private User _user = new User();
 
-    private int _followCount;
+    private bool FollowList = false;
+
+    private List<User> FollowInfoList = null;
 
     protected override async Task OnInitializedAsync()
     {
-
         _user = await UserService.GetPublicUserInfo(UserId);
-        _followCount = _user.Follows.Count;
-        Console.WriteLine(_followCount);
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        _user = await UserService.GetPublicUserInfo(UserId);
+        await base.OnAfterRenderAsync(true);
+    }
+
+    private async Task ToggleFollowList()
+    {
+        if (FollowInfoList == null)
+        {
+            FollowInfoList = await GetFollowInfo();
+        }
+
+        FollowList = !FollowList;
+        StateHasChanged();
+    }
+
+    private async Task<List<User>> GetFollowInfo()
+    {
+        FollowInfoList = new List<User>();
+
+        foreach(var follow in _user.Follows)
+        {
+            FollowInfoList.Add(await UserService.GetPublicUserInfo(follow.FollowerId));
+        }
+        return FollowInfoList;
+    }
+
+    private Task NavigateToUser(int userId)
+    {
+        NavigationManager.NavigateTo("/users/" + userId);
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 }
 
-<p1>@_user.Username</p1><br />
-<p1>@_user.Karma</p1><br />
-<p1>@_followCount</p1>
+

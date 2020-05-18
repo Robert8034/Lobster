@@ -11,10 +11,12 @@ namespace Lobster.Server.Services.PostingServices
     public class PostingService : IPostingService
     {
         private readonly IRepository<Post> _postRepository;
+        private readonly IRepository<Like> _likeRepository;
 
-        public PostingService(IRepository<Post> postRepository)
+        public PostingService(IRepository<Post> postRepository, IRepository<Like> likeRepository)
         {
             _postRepository = postRepository;
+            _likeRepository = likeRepository;
         }
 
         public List<Post> GetTimeline(List<Core.Models.Follows.Follow> follows)
@@ -26,6 +28,8 @@ namespace Lobster.Server.Services.PostingServices
                 posts.AddRange(_postRepository.Table.Where(row => row.UserId == follow.FollowerId).Include(post => post.Likes).Include(post => post.Reactions).ToList());
 
             }
+            posts.Sort((x, y) => DateTime.Compare(x.PostDate, y.PostDate));
+            posts.Reverse();
             return posts;
         }
 
@@ -39,6 +43,24 @@ namespace Lobster.Server.Services.PostingServices
                 Likes = new List<Like>(),
                 Reactions = new List<Reaction>()
             });
+        }
+
+        public bool LikePost(int postId, int userId)
+        {
+           if (_likeRepository.TableNoTracking.Any(e => e.PostId == postId && e.UserId == userId)) return false;
+
+            _likeRepository.Insert(new Like
+            {
+                PostId = postId,
+                UserId = userId
+            });
+
+            return true;
+        }
+
+        public Post GetPost(int postId)
+        {
+            return _postRepository.TableNoTracking.Include(e => e.Likes).Include(e => e.Reactions).SingleOrDefault(e => e.Id == postId);
         }
     }
 }

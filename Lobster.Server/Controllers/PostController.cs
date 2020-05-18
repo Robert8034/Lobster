@@ -51,10 +51,19 @@ namespace Lobster.Server.Controllers
         }
 
         [HttpGet]
-        [Route("/user/{userId}")]
+        [Route("user/{userId}")]
         public RestResponse GetUserPosts(int userId)
         {
             return new RestResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPut]
+        [Route("{postId}/like/{userId}")]
+        public RestResponse LikePost(int postId, int userId)
+        {
+            var result = _postingService.LikePost(postId, userId);
+
+            return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(_postingService.GetPost(postId))) : new RestResponse(HttpStatusCode.BadRequest);
         }
     }
 }
