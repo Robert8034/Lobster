@@ -12,6 +12,7 @@ namespace Lobster.Server.Services.PostingServices
         public List<Post> GetTimeline(List<Core.Models.Follows.Follow> follows);
         public void CreatePost(PostModel postModel);
         public bool LikePost(int postId, int userId);
+        public bool RemoveLike(int postId, int userId);
         public Post GetPost(int postId);
     }
 }

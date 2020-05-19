@@ -1,0 +1,84 @@
+﻿@page "/posts/{PostId:int}"
+@inject NavigationManager NavigationManager
+@inject IPostingService PostingService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage;
+@inject IFollowService FollowService
+@inject IUserService UserService
+@inject ILikingService LikingService
+
+@if (post?.Reactions != null)
+{
+    <Card>
+        <Paragraph OnClick="@(() => NavigateToUser(post.UserId))" Text="@poster.Username"></Paragraph>
+        <p1>@post.Content</p1><br />
+        <p1>Date: @post.PostDate</p1><br />
+        <p1>Likes: @post.Likes.Count <Paragraph Text="@reactionText"></Paragraph></p1>
+        @if (post.Likes.Find(e => e.UserId == UserId) == null)
+        {
+            <Button Title="Like" OnClick="@(() => LikePost(post.Id))" Enabled="true"></Button>
+        }
+        else
+        {
+            <Button Title="Unlike" OnClick="@(() => RemoveLike(post.Id))" Enabled="true"></Button>
+        }
+        <Button Title="Comment" OnClick="@(() => CommentPost(post.Id))" Enabled="true"></Button>
+
+        @foreach (var reaction in post.Reactions)
+        {
+            <Card>
+                <p1>@reaction.UserId</p1>
+                <p1>@reaction.Content</p1>
+            </Card>
+        }
+    </Card> 
+}
+
+
+@code {
+    [Parameter]
+    public int PostId { get; set; }
+
+    private Post post;
+
+    private int UserId;
+
+    private User poster;
+
+    private string reactionText;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        post = await PostingService.GetPost(PostId);
+        UserId = await localStorage.GetItemAsync<int>("userId");
+        poster = await UserService.GetPublicUserInfo(post.UserId);
+        string reactionText = "Reactions: " + post.Reactions.Count;
+    }
+
+    private Task NavigateToUser(int userId)
+    {
+        NavigationManager.NavigateTo("/users/" + userId);
+        return Task.CompletedTask;
+    }
+
+    private async Task LikePost(int postId)
+    {
+        Post result = await LikingService.LikePost(UserId, postId);
+        post.Likes = result.Likes;
+        StateHasChanged();
+    }
+
+    private async Task RemoveLike(int postId)
+    {
+        Post result = await LikingService.RemoveLike(UserId, postId);
+        post.Likes = result.Likes;
+        StateHasChanged();
+    }
+
+    private Task CommentPost(int postId)
+    {
+        NavigationManager.NavigateTo("/posts/" + postId + "/comment");
+        return Task.CompletedTask;
+    }
+
+}

@@ -38,5 +38,12 @@ namespace Lobster.Client.Services.Posting
         {
            await _httpClient.PostJsonAsync<RestResponse>("api/Post", postModel, null);
         }
+
+        public async Task<Post> GetPost(int postId)
+        {
+            RestResponse response = await _httpClient.GetJsonAsync<RestResponse>("api/Post/" + postId, typeof(Post));
+
+            return (Post) response.ResponseObject;
+        }
     }
 }

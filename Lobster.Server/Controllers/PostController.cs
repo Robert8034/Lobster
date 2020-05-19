@@ -65,5 +65,24 @@ namespace Lobster.Server.Controllers
 
             return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(_postingService.GetPost(postId))) : new RestResponse(HttpStatusCode.BadRequest);
         }
+
+        [HttpPut]
+        [Route("{postId}/like/{userId}/remove")]
+        public RestResponse RemoveLike(int postId, int userId)
+        {
+            var result = _postingService.RemoveLike(postId, userId);
+
+            return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(_postingService.GetPost(postId))) : new RestResponse(HttpStatusCode.BadRequest);
+
+        }
+
+        [HttpGet]
+        [Route("{postId}")]
+        public RestResponse GetPost(int postId)
+        {
+            var result = _postingService.GetPost(postId);
+
+            return new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(result));
+        }
     }
 }

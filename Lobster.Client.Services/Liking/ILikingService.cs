@@ -9,5 +9,7 @@ namespace Lobster.Client.Services.Liking
     public interface ILikingService
     {
         public Task<Post> LikePost(int userId, int postId);
+        public Task<Post> RemoveLike(int userId, int postId);
+
     }
 }

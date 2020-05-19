@@ -58,6 +58,20 @@ namespace Lobster.Server.Services.PostingServices
             return true;
         }
 
+        public bool RemoveLike(int postId, int userId)
+        {
+            if (_likeRepository.TableNoTracking.Any(e => e.PostId == postId && e.UserId == userId))
+            {
+                Like like = _likeRepository.TableNoTracking.SingleOrDefault(e =>
+                    e.PostId == postId && e.UserId == userId);
+
+                _likeRepository.Delete(like);
+                return true;
+            }
+
+            return false;
+        }
+
         public Post GetPost(int postId)
         {
             return _postRepository.TableNoTracking.Include(e => e.Likes).Include(e => e.Reactions).SingleOrDefault(e => e.Id == postId);

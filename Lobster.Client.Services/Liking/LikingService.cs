@@ -30,5 +30,18 @@ namespace Lobster.Client.Services.Liking
             return null;
         }
 
+        public async Task<Post> RemoveLike(int userId, int postId)
+        {
+
+            RestResponse response = await _httpClient.PutJsonAsync<RestResponse>("api/Post/" + postId + "/like/" + userId + "/remove", null, typeof(Post));
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return (Post)response.ResponseObject;
+            }
+
+            return null;
+        }
+
     }
 }

@@ -21,19 +21,20 @@ else
     <Timeline>
         @foreach (var post in timelinePosts)
         {
-             
+            string reactionText = "Reactions: " + post.Reactions.Count;
+
         <Card>
             <Paragraph OnClick="@(() => NavigateToUser(timelineUsers.Find(e => e.Id == post.UserId).Id))" Text="@timelineUsers.Find(e => e.Id == post.UserId).Username"></Paragraph>
             <p1>@post.Content</p1><br />
             <p1>Date: @post.PostDate</p1><br />
-            <p1>Likes: @post.Likes.Count                      Reactions: @post.Reactions.Count</p1> <br />
+            <p1>Likes: @post.Likes.Count                      <Paragraph Text="@reactionText" OnClick="@(() => NavigateToPostPage(post.Id))" ></Paragraph></p1>
             @if (post.Likes.Find(e => e.UserId == UserId) == null)
             {
                 <Button Title="Like" OnClick="@(() => LikePost(post.Id))" Enabled="true"></Button>
             }
             else
             {
-                <Button Title="Like" OnClick="@(() => LikePost(post.Id))" Enabled="false"></Button>
+                <Button Title="Unlike" OnClick="@(() => RemoveLike(post.Id))" Enabled="true"></Button>
             }
             <Button Title="Comment" OnClick="@(() => CommentPost(post.Id))" Enabled="true"></Button>
 
@@ -75,9 +76,23 @@ else
         StateHasChanged();
     }
 
-    private async Task CommentPost(int postId)
+    private async Task RemoveLike(int postId)
     {
+        Post post = await LikingService.RemoveLike(UserId, postId);
+        timelinePosts.Find(e => e.Id == postId).Likes = post.Likes;
+        StateHasChanged();
+    }
 
+    private Task CommentPost(int postId)
+    {
+        NavigationManager.NavigateTo("/posts/" + postId + "/comment");
+        return Task.CompletedTask;
+    }
+
+    private Task NavigateToPostPage(int postId)
+    {
+        NavigationManager.NavigateTo("/posts/" + postId);
+        return Task.CompletedTask;
     }
 }
 

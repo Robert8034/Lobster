@@ -10,7 +10,7 @@ namespace Lobster.Client.Services.Posting
     public interface IPostingService
     {
         Task<List<Post>> GenerateTimeline(int userId);
-
         Task CreateNewPost(PostModel postModel);
+        Task<Post> GetPost(int postId);
     }
 }
