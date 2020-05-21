@@ -20,16 +20,15 @@ namespace Lobster.Data.Migrations
             modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("FollowerId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id", "UserId");
 
                     b.HasIndex("FollowerId");
 
@@ -171,6 +170,9 @@ namespace Lobster.Data.Migrations
 
                     b.Property<int?>("GroupPostId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");

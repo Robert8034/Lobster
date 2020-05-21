@@ -34,5 +34,25 @@ namespace Lobster.Server.Controllers
         {
             return new RestResponse(HttpStatusCode.OK, _mapper.Map<List<Core.Models.Follows.Follow>>(_followService.GetFollows(userId.GetInt32())));
         }
+
+        [HttpPut]
+        [Route("{userId}/follows/{followerId}/add")]
+        public RestResponse FollowUser(int userId, int followerId)
+        {
+            var result = _followService.FollowUser(userId, followerId);
+
+            return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<List<Core.Models.Follows.Follow>>(_followService.GetFollows(userId))) : new RestResponse(HttpStatusCode.BadRequest);
+
+        }
+
+        [HttpPut]
+        [Route("{userId}/follows/{followerId}/remove")]
+        public RestResponse UnfollowUser(int userId, int followerId)
+        {
+            var result = _followService.UnfollowUser(userId, followerId);
+
+            return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<List<Core.Models.Follows.Follow>>(_followService.GetFollows(userId))) : new RestResponse(HttpStatusCode.BadRequest);
+
+        }
     }
 }

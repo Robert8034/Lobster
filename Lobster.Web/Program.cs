@@ -12,6 +12,7 @@ using Blazored.SessionStorage;
 using Blazored.LocalStorage;
 using Lobster.Client.Services.UserServices;
 using Lobster.Client.Services.Liking;
+using Lobster.Client.Services.Reacting;
 
 namespace Lobster.Web
 {
@@ -23,6 +24,7 @@ namespace Lobster.Web
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddSingleton<IValidationService, ValidationService>();
             builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddSingleton<IReactionService, ReactionService>();
             builder.Services.AddSingleton<IPostingService, PostingService>();
             builder.Services.AddSingleton<ILikingService, LikingService>();
             builder.Services.AddSingleton<IFollowService, FollowService>();

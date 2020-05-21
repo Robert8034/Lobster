@@ -146,6 +146,7 @@ namespace Lobster.Data.Migrations
                     PostId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
+                    PostDate = table.Column<DateTime>(nullable: false),
                     GroupPostId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -169,14 +170,13 @@ namespace Lobster.Data.Migrations
                 name: "Follows",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     FollowerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Follows", x => x.Id);
+                    table.PrimaryKey("PK_Follows", x => new { x.Id, x.UserId });
                     table.ForeignKey(
                         name: "FK_Follows_Users_FollowerId",
                         column: x => x.FollowerId,

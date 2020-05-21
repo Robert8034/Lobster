@@ -12,11 +12,13 @@ namespace Lobster.Server.Services.PostingServices
     {
         private readonly IRepository<Post> _postRepository;
         private readonly IRepository<Like> _likeRepository;
+        private readonly IRepository<Reaction> _reactionRepository;
 
-        public PostingService(IRepository<Post> postRepository, IRepository<Like> likeRepository)
+        public PostingService(IRepository<Post> postRepository, IRepository<Like> likeRepository, IRepository<Reaction> reactionRepository)
         {
             _postRepository = postRepository;
             _likeRepository = likeRepository;
+            _reactionRepository = reactionRepository;
         }
 
         public List<Post> GetTimeline(List<Core.Models.Follows.Follow> follows)
@@ -41,7 +43,7 @@ namespace Lobster.Server.Services.PostingServices
                 PostDate = DateTime.Now,
                 UserId = postModel.UserId,
                 Likes = new List<Like>(),
-                Reactions = new List<Reaction>()
+                Reactions = new List<Core.Domain.Reaction>()
             });
         }
 
@@ -74,7 +76,24 @@ namespace Lobster.Server.Services.PostingServices
 
         public Post GetPost(int postId)
         {
-            return _postRepository.TableNoTracking.Include(e => e.Likes).Include(e => e.Reactions).SingleOrDefault(e => e.Id == postId);
+            Post post = _postRepository.TableNoTracking.Include(e => e.Likes).Include(e => e.Reactions).SingleOrDefault(e => e.Id == postId);
+            post.Reactions.Sort((x, y) => DateTime.Compare(x.PostDate, y.PostDate));
+            post.Reactions.Reverse();
+            return post;
+        }
+
+        public Post ReactOnPost(Core.Models.Reactions.Reaction reactionModel)
+        {
+            _reactionRepository.Insert(new Reaction
+            {
+                Content = reactionModel.Content,
+                PostId = reactionModel.PostId,
+                UserId = reactionModel.UserId,
+                PostDate = DateTime.Now
+            });
+
+            return _postRepository.TableNoTracking.Include(e => e.Likes).Include(e => e.Reactions).SingleOrDefault(e => e.Id == reactionModel.PostId);
+
         }
     }
 }

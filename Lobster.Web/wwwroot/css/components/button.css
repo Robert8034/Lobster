@@ -14,12 +14,4 @@
     width: 100%;
 }
 
-.button {
-    border: 0px;
-    border-radius: 6px;
-    height: 42px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 

@@ -1,6 +1,8 @@
 ﻿@page "/users/{UserId:int}"
 @inject IUserService UserService
+@inject IFollowService FollowService
 @inject NavigationManager NavigationManager
+@inject ILocalStorageService localStorage
 
 <p1>Username: @_user.Username</p1>
 <br />
@@ -8,13 +10,22 @@
 <br />
 @if (_user?.Follows != null)
 {
+    if (_user.Follows.Find(e => e.FollowerId == VisitorId) == null)
+    {
+        <Button Title="Follow" OnClick="@(() => FollowUser())" Enabled="true" ></Button>
+    }
+    else
+    {
+        <Button Title="Unfollow" OnClick="@(() => UnfollowUser())" Enabled="true"></Button>
+    }
+
     string text = "Followers: " + @_user.Follows.Count.ToString();
     <Paragraph OnClick="@ToggleFollowList" Text="@text"></Paragraph>
 }
 
 @if (FollowList && _user?.Follows != null)
 {
-    @foreach(var follow in _user.Follows)
+    @foreach (var follow in _user.Follows)
     {
 
         <Card>
@@ -28,6 +39,8 @@
     [Parameter]
     public int UserId { get; set; }
 
+    public int VisitorId;
+
     private User _user = new User();
 
     private bool FollowList = false;
@@ -36,7 +49,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        int userId = await localStorage.GetItemAsync<int>("userId");
+        if (userId == 0) NavigationManager.NavigateTo("/authentication");
         _user = await UserService.GetPublicUserInfo(UserId);
+        VisitorId = userId;
         StateHasChanged();
     }
 
@@ -61,7 +77,7 @@
     {
         FollowInfoList = new List<User>();
 
-        foreach(var follow in _user.Follows)
+        foreach (var follow in _user.Follows)
         {
             FollowInfoList.Add(await UserService.GetPublicUserInfo(follow.FollowerId));
         }
@@ -73,6 +89,20 @@
         NavigationManager.NavigateTo("/users/" + userId);
         StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    private async Task FollowUser()
+    {
+        _user.Follows = await FollowService.FollowUser(_user.Id, VisitorId);
+        FollowList = false;
+        StateHasChanged();
+    }
+
+    private async Task UnfollowUser()
+    {
+        _user.Follows = await FollowService.UnfollowUser(_user.Id, VisitorId);
+        FollowList = false;
+        StateHasChanged();
     }
 }
 

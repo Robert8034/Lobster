@@ -1,11 +1,11 @@
 ﻿
     @if (!Enabled)
     {
-        <button @onclick="@Click" class="button @Class @(Size == ButtonSize.Small ? "button-small" : Size == ButtonSize.Big ? "button-big" : Size == ButtonSize.Full ? "button-full" : "button-medium")" disabled>@Title</button>
+        <button @onclick="@Click" class=" @Class @(Size == ButtonSize.Small ? "button-small" : Size == ButtonSize.Big ? "button-big" : Size == ButtonSize.Full ? "button-full" : "button-medium")" disabled>@Title</button>
     }
     else
     {
-        <button @onclick="@Click" class="button @Class @(Size == ButtonSize.Small ? "button-small" : Size == ButtonSize.Big ? "button-big" : Size == ButtonSize.Full ? "button-full" : "button-medium")">@Title</button>
+        <button @onclick="@Click" class=" @Class @(Size == ButtonSize.Small ? "button-small" : Size == ButtonSize.Big ? "button-big" : Size == ButtonSize.Full ? "button-full" : "button-medium")">@Title</button>
     }
 
 

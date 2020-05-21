@@ -9,5 +9,7 @@ namespace Lobster.Server.Services.FollowServices
     public interface IFollowService
     {
         public List<Follow> GetFollows(int userId);
+        bool FollowUser(int userId, int followerId);
+        bool UnfollowUser(int userId, int followerId);
     }
 }

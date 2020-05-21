@@ -19,16 +19,21 @@
         }
         else
         {
-            <Button Title="Unlike" OnClick="@(() => RemoveLike(post.Id))" Enabled="true"></Button>
+            <Button Title="Unlike" OnClick="@(() => RemoveLike(post.Id))" Enabled="true" ></Button>
         }
+        <br/>
         <Button Title="Comment" OnClick="@(() => CommentPost(post.Id))" Enabled="true"></Button>
-
-        @foreach (var reaction in post.Reactions)
+        <br/>
+        @if (commentUsers != null)
         {
-            <Card>
-                <p1>@reaction.UserId</p1>
-                <p1>@reaction.Content</p1>
-            </Card>
+            @foreach (var reaction in post.Reactions)
+            {
+                <Card>
+                    <Paragraph Text="@commentUsers.Find(e => e.Id == reaction.UserId).Username" OnClick="@(() => NavigateToUser(post.UserId))"></Paragraph>
+                    <p1>@reaction.PostDate</p1>
+                    <p1>@reaction.Content</p1>
+                </Card>
+            }
         }
     </Card> 
 }
@@ -46,6 +51,8 @@
 
     private string reactionText;
 
+    private List<User> commentUsers = new List<User>();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,6 +60,11 @@
         UserId = await localStorage.GetItemAsync<int>("userId");
         poster = await UserService.GetPublicUserInfo(post.UserId);
         string reactionText = "Reactions: " + post.Reactions.Count;
+
+        foreach (var reaction in post.Reactions)
+        {
+            commentUsers.Add(await UserService.GetPublicUserInfo(reaction.UserId));
+        }
     }
 
     private Task NavigateToUser(int userId)
@@ -79,6 +91,12 @@
     {
         NavigationManager.NavigateTo("/posts/" + postId + "/comment");
         return Task.CompletedTask;
+    }
+
+    private async Task<User> GetUsername(int userId)
+    {
+        User result = await UserService.GetPublicUserInfo(userId);
+        return result;
     }
 
 }

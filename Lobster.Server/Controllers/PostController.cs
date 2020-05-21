@@ -84,5 +84,14 @@ namespace Lobster.Server.Controllers
 
             return new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(result));
         }
+
+        [HttpPut]
+        [Route("react")]
+        public RestResponse ReactOnPost(Core.Models.Reactions.Reaction reactionModel)
+        {
+            var result = _postingService.ReactOnPost(reactionModel);
+
+            return new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(result));
+        }
     }
 }

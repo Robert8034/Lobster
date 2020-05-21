@@ -1,0 +1,42 @@
+﻿@page "/posts/{PostId:int}/comment"
+@inject NavigationManager NavigationManager
+@inject IPostingService PostingService
+@inject IValidationService ValidationService
+@inject ILocalStorageService localStorage
+@inject IReactionService ReactionService
+
+<h3>CommentPage</h3>
+@layout FormLayout
+
+<h3>CreatePost</h3>
+
+<GenericForm>
+    <Textarea @ref="Content" Title="Content" Type="text" Placeholder="Sample Text" OnChange="@ValidateInput"></Textarea>
+    <Button @ref="ReactButton" Title="Post" OnClick="@PostComment"></Button>
+</GenericForm>
+
+
+@code {
+
+    [Parameter]
+    public int PostId { get; set; }
+
+    private Button ReactButton;
+    private Textarea Content;
+
+    private async Task PostComment()
+    {
+        int userId = await localStorage.GetItemAsync<int>("userId");
+
+        await ReactionService.ReactOnPost(userId, PostId, Content.Text);
+
+        NavigationManager.NavigateTo("/posts/" + PostId);
+    }
+
+    private Task ValidateInput(string value)
+    {
+        ReactButton.ToggleEnabled(ValidationService.ValidatePostInput(Content.Text));
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}

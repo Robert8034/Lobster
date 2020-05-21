@@ -9,8 +9,9 @@
 
 <h3>Timeline</h3>
 
-<Button Title="Create New Post" OnClick="@NavigateToNewPostForm" Enabled="true"></Button>
-
+<Button Title="Create New Post" OnClick="@NavigateToNewPostForm" Enabled="true" Size="ButtonSize.Big"></Button>
+<br/>
+<br/>
 @if (timelinePosts == null)
 {
     <p1>It's pretty empty here... Start following some people?</p1>
@@ -36,6 +37,7 @@ else
             {
                 <Button Title="Unlike" OnClick="@(() => RemoveLike(post.Id))" Enabled="true"></Button>
             }
+            <br/>
             <Button Title="Comment" OnClick="@(() => CommentPost(post.Id))" Enabled="true"></Button>
 
         </Card>

@@ -41,6 +41,7 @@ namespace Lobster.Server
             services.AddScoped<IRepository<Post>, Repository<Post>>();
             services.AddScoped<IRepository<Like>, Repository<Like>>();
             services.AddScoped<IRepository<Follow>, Repository<Follow>>();
+            services.AddScoped<IRepository<Reaction>, Repository<Reaction>>();
             services.AddSingleton<IEncryptionService, EncryptionService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IFollowService, FollowService>();
