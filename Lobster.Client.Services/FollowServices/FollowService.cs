@@ -38,6 +38,7 @@ namespace Lobster.Client.Services.FollowServices
             }
 
             return null;
+
         }
 
         public async Task<List<Follow>> UnfollowUser(int userId, int followerId)
