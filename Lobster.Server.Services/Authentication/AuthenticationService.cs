@@ -23,7 +23,7 @@ namespace Lobster.Server.Services.Authentication
         }
         public User LoginUser(LoginModel loginModel)
         {
-            var tempUser =  _userRepository.Table.Include(e => e.Follows).ThenInclude(e => e.Follower).SingleOrDefault(a => a.Username == loginModel.Username);
+            var tempUser =  _userRepository.Table.Include(e => e.Follows).SingleOrDefault(a => a.Username == loginModel.Username);
 
             if (tempUser != null && _encryptionService.Decrypt(tempUser.Password, tempUser.EncryptionKey) == loginModel.Password) return tempUser;
            

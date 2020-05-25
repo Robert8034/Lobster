@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lobster.Data.Migrations
 {
     [DbContext(typeof(LobsterContext))]
-    [Migration("20200520082012_InitialCreate")]
+    [Migration("20200525095918_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
@@ -31,8 +31,6 @@ namespace Lobster.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id", "UserId");
-
-                    b.HasIndex("FollowerId");
 
                     b.HasIndex("UserId");
 
@@ -241,13 +239,7 @@ namespace Lobster.Data.Migrations
 
             modelBuilder.Entity("Lobster.Core.Domain.Follow", b =>
                 {
-                    b.HasOne("Lobster.Core.Domain.User", "Follower")
-                        .WithMany()
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lobster.Core.Domain.User", "User")
+                    b.HasOne("Lobster.Core.Domain.User", null)
                         .WithMany("Follows")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

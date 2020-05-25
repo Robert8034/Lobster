@@ -178,12 +178,6 @@ namespace Lobster.Data.Migrations
                 {
                     table.PrimaryKey("PK_Follows", x => new { x.Id, x.UserId });
                     table.ForeignKey(
-                        name: "FK_Follows_Users_FollowerId",
-                        column: x => x.FollowerId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Follows_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
@@ -211,11 +205,6 @@ namespace Lobster.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Follows_FollowerId",
-                table: "Follows",
-                column: "FollowerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Follows_UserId",

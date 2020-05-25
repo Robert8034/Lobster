@@ -18,7 +18,7 @@ namespace Lobster.Server.Services.UserServices
         }
         public User GetPublicUserData(int userId)
         {
-            var tempUser = _userRepository.Table.Include(e => e.Follows).ThenInclude(e => e.Follower).SingleOrDefault(usr => usr.Id == userId);
+            var tempUser = _userRepository.Table.Include(e => e.Follows).SingleOrDefault(usr => usr.Id == userId);
 
             return new User()
             {
