@@ -16,17 +16,13 @@ namespace Lobster.Server.Services.FollowServices
             _followRepository = followRepository;
         }
 
-        public bool FollowUser(int userId, int followerId)
+        public void FollowUser(int userId, int followerId)
         {
-            if (_followRepository.TableNoTracking.Any(e => e.UserId == userId && e.FollowerId == followerId))
-                return false;
-
             _followRepository.Insert(new Follow
             {
                 UserId = userId,
                 FollowerId = followerId
             });
-            return true;
         }
 
         public List<Follow> GetFollows(int userId)
@@ -34,17 +30,24 @@ namespace Lobster.Server.Services.FollowServices
             return _followRepository.Table.Where(a => a.UserId == userId).ToList();
         }
 
-        public bool UnfollowUser(int userId, int followerId)
+        public void UnfollowUser(Follow follow)
         {
-            if (!_followRepository.TableNoTracking.Any(e => e.UserId == userId && e.FollowerId == followerId))
-                return false;
-
-            Follow follow =
-                _followRepository.TableNoTracking.SingleOrDefault(e =>
-                    e.UserId == userId && e.FollowerId == followerId);
-
             _followRepository.Delete(follow);
-            return true;
         }
+
+        public bool CheckIfFollowed(int userId, int followerId)
+        {
+            if (_followRepository.TableNoTracking.Any(e => e.UserId == userId && e.FollowerId == followerId))
+                return true;
+
+            return false;
+        }
+
+        public Follow GetFollow(int userId, int followerId)
+        {
+            return _followRepository.TableNoTracking.SingleOrDefault(e =>
+                    e.UserId == userId && e.FollowerId == followerId);
+        }
+
     }
 }

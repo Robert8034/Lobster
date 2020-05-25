@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Reaction = Lobster.Core.Models.Reactions.Reaction;
 
 namespace Lobster.Server.Services.PostingServices
 {
@@ -12,9 +11,14 @@ namespace Lobster.Server.Services.PostingServices
     {
         public List<Post> GetTimeline(List<Core.Models.Follows.Follow> follows);
         public void CreatePost(PostModel postModel);
-        public bool LikePost(int postId, int userId);
-        public bool RemoveLike(int postId, int userId);
+        public void LikePost(int postId, int userId);
+        public void RemoveLike(Like like);
+        public bool CheckIfLiked(int postId, int userId);
         public Post GetPost(int postId);
-        Post ReactOnPost(Reaction reactionModel);
+        void ReactOnPost(Core.Models.Reactions.Reaction reactionModel); 
+        Like GetLike(int postId, int userId);
+        bool CheckIfPostExists(int postId);
+        Reaction GetReaction(int reactionId);
+
     }
 }

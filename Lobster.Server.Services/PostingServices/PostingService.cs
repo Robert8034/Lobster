@@ -47,31 +47,33 @@ namespace Lobster.Server.Services.PostingServices
             });
         }
 
-        public bool LikePost(int postId, int userId)
+        public bool CheckIfLiked(int postId, int userId)
         {
-           if (_likeRepository.TableNoTracking.Any(e => e.PostId == postId && e.UserId == userId)) return false;
+            if (_likeRepository.TableNoTracking.Any(e => e.PostId == postId && e.UserId == userId)) return true;
 
+            return false;
+
+        }
+
+        public void LikePost(int postId, int userId)
+        {
             _likeRepository.Insert(new Like
             {
                 PostId = postId,
                 UserId = userId
             });
-
-            return true;
         }
 
-        public bool RemoveLike(int postId, int userId)
+        public Like GetLike(int postId, int userId)
         {
-            if (_likeRepository.TableNoTracking.Any(e => e.PostId == postId && e.UserId == userId))
-            {
-                Like like = _likeRepository.TableNoTracking.SingleOrDefault(e =>
-                    e.PostId == postId && e.UserId == userId);
 
-                _likeRepository.Delete(like);
-                return true;
-            }
+           return _likeRepository.TableNoTracking.SingleOrDefault(e =>
+                e.PostId == postId && e.UserId == userId);
+        }
 
-            return false;
+        public void RemoveLike(Like like)
+        {
+            _likeRepository.Delete(like);
         }
 
         public Post GetPost(int postId)
@@ -82,7 +84,7 @@ namespace Lobster.Server.Services.PostingServices
             return post;
         }
 
-        public Post ReactOnPost(Core.Models.Reactions.Reaction reactionModel)
+        public void ReactOnPost(Core.Models.Reactions.Reaction reactionModel)
         {
             _reactionRepository.Insert(new Reaction
             {
@@ -91,9 +93,18 @@ namespace Lobster.Server.Services.PostingServices
                 UserId = reactionModel.UserId,
                 PostDate = DateTime.Now
             });
+        }
 
-            return _postRepository.TableNoTracking.Include(e => e.Likes).Include(e => e.Reactions).SingleOrDefault(e => e.Id == reactionModel.PostId);
+        public bool CheckIfPostExists(int postId)
+        {
+            if (_postRepository.TableNoTracking.Any(e => e.Id == postId)) return true;
 
+            return false;
+        }
+
+        public Reaction GetReaction(int reactionId)
+        {
+            return _reactionRepository.TableNoTracking.SingleOrDefault(e => e.Id == reactionId);
         }
     }
 }

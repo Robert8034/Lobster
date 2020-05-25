@@ -61,7 +61,13 @@ namespace Lobster.Server.Controllers
         [Route("{postId}/like/{userId}")]
         public RestResponse LikePost(int postId, int userId)
         {
-            var result = _postingService.LikePost(postId, userId);
+            var result = false;
+
+            if (!_postingService.CheckIfLiked(postId, userId))
+            {
+                _postingService.LikePost(postId, userId);
+                result = true;
+            } 
 
             return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(_postingService.GetPost(postId))) : new RestResponse(HttpStatusCode.BadRequest);
         }
@@ -70,7 +76,14 @@ namespace Lobster.Server.Controllers
         [Route("{postId}/like/{userId}/remove")]
         public RestResponse RemoveLike(int postId, int userId)
         {
-            var result = _postingService.RemoveLike(postId, userId);
+            var result = false;
+
+            if (_postingService.CheckIfLiked(postId, userId))
+            {
+                var like = _postingService.GetLike(postId, userId);
+                _postingService.RemoveLike(like);
+                result = true;
+            }
 
             return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(_postingService.GetPost(postId))) : new RestResponse(HttpStatusCode.BadRequest);
 
@@ -89,9 +102,17 @@ namespace Lobster.Server.Controllers
         [Route("react")]
         public RestResponse ReactOnPost(Core.Models.Reactions.Reaction reactionModel)
         {
-            var result = _postingService.ReactOnPost(reactionModel);
+            var result = false;
+            Post post = new Post();
 
-            return new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(result));
+            if (_postingService.CheckIfPostExists(reactionModel.PostId))
+            {
+                _postingService.ReactOnPost(reactionModel); 
+                post = _postingService.GetPost(reactionModel.PostId);
+                result = true;
+            }
+
+            return result ? new RestResponse(HttpStatusCode.OK, _mapper.Map<Core.Models.Posts.Post>(post)) : new RestResponse(HttpStatusCode.BadRequest);
         }
     }
 }

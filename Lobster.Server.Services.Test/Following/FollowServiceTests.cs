@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Application.Data;
 using Lobster.Core.Domain;
@@ -28,17 +29,40 @@ namespace Lobster.Server.Services.Test.Following
             var followService = new FollowService(_followRepositoryMock.Object);
 
             //ACT
-            var result = followService.FollowUser(1, 1);
+            followService.FollowUser(1, 1);
+
+            var result = followService.GetFollow(1, 1);
 
             //ASSERT
-            Assert.True(result);
+            Assert.Equal(1, result.UserId);
+            Assert.Equal(1, result.FollowerId);
+            Assert.Equal(0, result.Id);
+
         }
 
         [Fact]
         public void UnfollowUserTest()
         {
             //ARRANGE
-            Assert.True(1 == 1);
+            Follow follow1 = new Follow{FollowerId = 1, Id = 1, UserId = 1};
+            Follow follow2 = new Follow { FollowerId = 2, Id = 2, UserId = 2 };
+
+            _followRepositoryMock.SetupRepositoryMock(options =>
+            {
+                options.Insert(follow1);
+                options.Insert(follow2);
+            });
+
+            var followService = new FollowService(_followRepositoryMock.Object);
+
+            //ACT
+            followService.UnfollowUser(follow1);
+
+            var result = followService.GetFollow(1,1);
+
+            //ASSERT
+            Assert.Null(result);
+
         }
 
         [Fact]
@@ -80,6 +104,48 @@ namespace Lobster.Server.Services.Test.Following
                  Assert.Equal(follows[i].UserId, actualFollows[i].UserId);
                  Assert.Equal(follows[i].FollowerId, actualFollows[i].FollowerId);
             }
+        }
+
+        [Fact]
+        public void CheckIfFollowedTest()
+        {
+            //ARRANGE
+            Follow follow1 = new Follow{Id = 1, FollowerId = 1, UserId = 1};
+
+            _followRepositoryMock.SetupRepositoryMock(options => { options.Insert(follow1); });
+
+            var followService = new FollowService(_followRepositoryMock.Object);
+
+            //ACT
+            var result = followService.CheckIfFollowed(1, 1);
+
+            //ASSERT
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void GetFollowTest()
+        {
+            //ARRANGE
+            Follow follow1 = new Follow{Id = 1, FollowerId = 1, UserId = 1};
+            Follow follow2 = new Follow { Id = 2, FollowerId = 2, UserId = 1 };
+
+            _followRepositoryMock.SetupRepositoryMock(options =>
+            {
+                options.Insert(follow1);
+                options.Insert(follow2);
+            });
+
+            var followService = new FollowService(_followRepositoryMock.Object);
+
+            //ACT
+            var result = followService.GetFollow(1, 1);
+
+            //ASSERT
+            Assert.Equal(1, result.Id);
+            Assert.Equal(1, result.UserId);
+            Assert.Equal(1, result.FollowerId);
+
         }
     }
 }
