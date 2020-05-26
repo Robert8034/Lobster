@@ -1,7 +1,6 @@
-﻿using Application.Data;
-using Lobster.Core.Data;
-using System;
+﻿using System;
 using System.Reflection;
+using Lobster.Core.Data;
 using Lobster.Data;
 using Microsoft.EntityFrameworkCore;
 using Moq;

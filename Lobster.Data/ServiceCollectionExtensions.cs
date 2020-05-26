@@ -1,5 +1,4 @@
-﻿using Application.Data;
-using Lobster.Core.Data;
+﻿using Lobster.Core.Data;
 using Lobster.Core.Domain;
 using Microsoft.Extensions.DependencyInjection;
 

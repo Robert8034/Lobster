@@ -5,7 +5,7 @@ using System.Linq;
 using Lobster.Core.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Data
+namespace Lobster.Data
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {

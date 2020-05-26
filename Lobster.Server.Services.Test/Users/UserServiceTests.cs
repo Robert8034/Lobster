@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Application.Data;
 using Lobster.Core.Domain;
+using Lobster.Data;
 using Lobster.Server.Services.UserServices;
 using Moq;
 using Xunit;

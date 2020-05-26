@@ -1,5 +1,4 @@
 
-using Application.Data;
 using AutoMapper;
 using Lobster.Core;
 using Lobster.Core.Data;
