@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-    - stable
+    - master
   paths:
     exclude:
     - azure-pipelines.yml
