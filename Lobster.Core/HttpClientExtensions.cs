@@ -13,7 +13,7 @@ namespace Lobster.Core
     public static class HttpClientExtensions
     {
 
-        private const string ConnectionString = "https://lobster-WASM.azurewebsites.net/";
+        private const string ConnectionString = "https://localhost:5001/";
      
         public static async Task<RestResponse> PostJsonAsync<T>(this HttpClient httpClient, string url, object data, Type type) => await httpClient.SendJsonAsync<T>(HttpMethod.Post, url, data, type);
         public static async Task<RestResponse> PutJsonAsync<T>(this HttpClient httpClient, string url, object data, Type type) => await httpClient.SendJsonAsync<T>(HttpMethod.Put, url, data, type);
